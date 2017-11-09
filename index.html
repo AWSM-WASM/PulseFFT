@@ -1,0 +1,47 @@
+<html>
+  <head>
+
+    <meta charset="UTF-8">
+    <title>Javascript FFT speed test</title>
+
+    <style type="text/css">
+      body { margin: 5%; }
+      table, td, th { border: 0.1em solid #e0e0e0; border-collapse: collapse }
+      td, th { padding: 0.5em }
+    </style>
+    
+
+    <script src="KissFFT.js"></script>
+    <script src="FFT.js"></script>
+    <script src="test.js"></script>
+
+  </head>
+<body>
+
+  <h3>Forward real-complex FFT speed test</h3>
+
+  <p id="test-description"></p>
+  
+  <table>
+    <tr>
+      <th>Implementation</th><th>Result</th><th>Time (first half)</th><th>Time (second half)</th><th>Rate (second half)</th>
+    </tr>
+    <tr>
+      <td>KissFFT</td><td id="kissfft-result"></td><td id="kissfft-1"></td><td id="kissfft-2"></td><td id="kissfft-itr"></td>
+    </tr><tr>
+      <td>KissFFT (c2c)</td><td id="kissfftcc-result"></td><td id="kissfftcc-1"></td><td id="kissfftcc-2"></td><td id="kissfftcc-itr"></td>
+    </tr>
+  </table>
+
+  <h3>Notes</h3>
+
+  <ul>
+    <li><b>KissFFT</b>: single-precision real-complex in C, compiled
+    with Emscripten. A reasonably sophisticated implementation. Around
+    70kb.</li>
+    <li><b>KissFFT (c2c)</b>: as KissFFT but using the complex-complex
+    transform (although with real-valued inputs).</li>
+  </ul>
+  
+</body>
+
