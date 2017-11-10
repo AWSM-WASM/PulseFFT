@@ -218,7 +218,7 @@ function testKissFFT(size) {
 
     report("kissfft", start, middle, end, total);
 
-    fft.dispose();
+    // fft.dispose();
 }
 
 function testKissFFTCC(size) {
@@ -246,11 +246,72 @@ function testKissFFTCC(size) {
 
     report("kissfftcc", start, middle, end, total);
 
-    fft.dispose();
+    // fft.dispose();
 }
 
+function testWASMkissFFT(size) {
+    
+        var fft = new WASMkissFFTR(size);
+    
+        var start = performance.now();
+        var middle = start;
+        var end = start;
+    
+        total = 0.0;
+    
+        for (var i = 0; i < 2*iterations; ++i) {
+        if (i == iterations) {
+            middle = performance.now();
+        }
+        var ri = inputReals(size);
+        var out = fft.forward(ri);
+        for (var j = 0; j <= size/2; ++j) {
+            total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
+        }
+        // KissFFTR returns only the first half of the output (plus
+        // DC/Nyquist) -- synthesise the conjugate half
+        for (var j = 1; j < size/2; ++j) {
+            total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
+        }
+        }
+    
+        var end = performance.now();
+    
+        report("WASMkissfft", start, middle, end, total);
+    
+        // fft.dispose();
+    }
+    
+    function testWASMkissFFTCC(size) {
+    
+        var fft = new WASMkissFFT(size);
+    
+        var start = performance.now();
+        var middle = start;
+        var end = start;
+    
+        total = 0.0;
+    
+        for (var i = 0; i < 2*iterations; ++i) {
+        if (i == iterations) {
+            middle = performance.now();
+        }
+        var cin = inputInterleaved(size);
+        var out = fft.forward(cin);
+        for (var j = 0; j < size; ++j) {
+            total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
+        }
+        }
+    
+        var end = performance.now();
+    
+        report("WASMkissfftcc", start, middle, end, total);
+    
+        // fft.dispose();
+    }
+
 var sizes = [ 4, 8, 512, 2048 ];
-var tests = [testKissFFT, testKissFFTCC];
+var tests = [testKissFFT, testKissFFTCC, testWASMkissFFT, testWASMkissFFTCC];
 var nextTest = 0;
 var nextSize = 0;
 var interval;
