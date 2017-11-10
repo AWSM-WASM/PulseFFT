@@ -93,6 +93,7 @@
     </div>
 
     <br>
+    <p id="test-description"></p>
 
     <div class="container">
         <div class="row">
@@ -104,10 +105,16 @@
                     <th>Implementation</th><th>Result</th><th>Time (first half)</th><th>Time (second half)</th><th>Rate (second half)</th>
                   </tr>
                   <tr>
-                    <td>KissFFT</td><td id="kissfft-result"></td><td id="kissfft-1"></td><td id="kissfft-2"></td><td id="kissfft-itr"></td>
+                    <td>FFT:asm</td><td id="kissfft-result"></td><td id="kissfft-1"></td><td id="kissfft-2"></td><td id="kissfft-itr"></td>
                   </tr>
                   <tr>
-                    <td>KissFFT (c2c)</td><td id="kissfftcc-result"></td><td id="kissfftcc-1"></td><td id="kissfftcc-2"></td><td id="kissfftcc-itr"></td>
+                    <td>FFT:asm (c2c)</td><td id="kissfftcc-result"></td><td id="kissfftcc-1"></td><td id="kissfftcc-2"></td><td id="kissfftcc-itr"></td>
+                  </tr>
+                  <tr>
+                    <td>FFT:wasm</td><td id="WASMkissfft-result"></td><td id="WASMkissfft-1"></td><td id="WASMkissfft-2"></td><td id="WASMkissfft-itr"></td>
+                  </tr>
+                  <tr>
+                    <td>FFT:wasm (c2c)</td><td id="WASMkissfftcc-result"></td><td id="WASMkissfftcc-1"></td><td id="WASMkissfftcc-2"></td><td id="WASMkissfftcc-itr"></td>
                   </tr>
                 </table>
           </div>
@@ -123,6 +130,7 @@
     </body>
   
     <script src="KissFFT.js"></script>
+    <script src="WASMkissFFT.js"></script>
     <script src="FFT.js"></script>
     <script src="test.js"></script>
     <script type="text/javascript" src="js/audio-helper.js"></script>
@@ -183,7 +191,7 @@
       })();
   
     </script>
-      <script>
+      <!-- <script>
           var ctx = document.getElementById('myChart').getContext('2d');
       
           var myLineChart = new Chart(ctx, {
@@ -205,7 +213,7 @@
           },
           options: {}
           });
-        </script>
+        </script> -->
 
     <!-- <audio crossOrigin="anonymous" id="audioElement" src="02 Noontide (Sol Vs Ky's Theme).mp3"></audio>
 
