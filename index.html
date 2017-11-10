@@ -9,7 +9,7 @@
       table, td, th { border: 0.1em solid #e0e0e0; border-collapse: collapse }
       td, th { padding: 0.5em }
     </style>
-    
+
 
     <script src="KissFFT.js"></script>
     <script src="FFT.js"></script>
@@ -18,10 +18,13 @@
   </head>
 <body>
 
+  <p>Volume</p>
+    <input id="volume" type="range" min="0" max="1" step="0.1" value="0.5"/>
+
   <h3>Forward real-complex FFT speed test</h3>
 
   <p id="test-description"></p>
-  
+
   <table>
     <tr>
       <th>Implementation</th><th>Result</th><th>Time (first half)</th><th>Time (second half)</th><th>Rate (second half)</th>
@@ -42,6 +45,5 @@
     <li><b>KissFFT (c2c)</b>: as KissFFT but using the complex-complex
     transform (although with real-valued inputs).</li>
   </ul>
-  
-</body>
 
+</body>
