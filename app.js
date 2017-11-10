@@ -13,14 +13,14 @@ $(document).ready(function () {
       var frequencyData = new Uint8Array(200);
     
       var svgHeight = '300';
-      var svgWidth = '1200';
+      var svgWidth = '1000';
       var barPadding = '1';
     
       function createSvg(parent, height, width) {
         return d3.select(parent).append('svg').attr('height', height).attr('width', width);
       }
     
-      var svg = createSvg('body', svgHeight, svgWidth);
+      var svg = createSvg('p', svgHeight, svgWidth);
     
       // Create our initial D3 chart.
       svg.selectAll('rect')
