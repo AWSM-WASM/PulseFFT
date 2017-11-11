@@ -48,15 +48,6 @@ var webaudio_tooling_obj = function () {
 
       microphone_stream.connect(script_processor_node);
 
-      // --- enable volume control for output speakers
-      document.getElementById('volume').addEventListener('change', function() {
-
-        var curr_volume = this.value;
-        gain_node.gain.value = curr_volume;
-
-        console.log("curr_volume ", curr_volume);
-      });
-
       // --- setup FFT
       script_processor_analysis_node = audioContext.createScriptProcessor(2048, 1, 1);
       script_processor_analysis_node.connect(gain_node);
