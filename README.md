@@ -1,4 +1,35 @@
+## Fast Fourier Transform library using the power of WebAssembly (.wasm)
 
+### Install
+
+Before you begin please do a git clone and then an install of EMSCRIPTEN on your local machine. 
+
+$ git clone https://github.com/juj/emsdk.git
+
+$ cd emsdk
+
+$ ./emsdk install latest
+
+$ ./emsdk activate latest
+
+
+ or
+ 
+ 
+$ git clone https://github.com/juj/emsdk.git
+
+$ cd emsdk
+
+$ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
+
+$ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
+
+Additional instructions about webAssembly and general questions can be directed here: http://webassembly.org/getting-started/developers-guide/
+
+afterwards git clone the following into your emsdk directory
+https://github.com/AWSM-WASM/FFTWASM.git
+
+NPM start - Use this npm command to point your paths to your current directory, run the KissFFT and WASMkissFFT scripts in your Makefile.emscripten. Afterwards it'll start up your local server
 
 ## Web Audio Examples - JavaScript
 
