@@ -209,7 +209,7 @@ function testKissFFT(size) {
 
     report("kissfft", start, middle, end, total);
 
-    // fft.dispose();
+    fft.dispose();
 }
 
 function testKissFFTCC(size) {
@@ -237,7 +237,7 @@ function testKissFFTCC(size) {
 
     report("kissfftcc", start, middle, end, total);
 
-    // fft.dispose();
+    fft.dispose();
 }
 
 function testWASMkissFFT(size) {
@@ -270,7 +270,7 @@ function testWASMkissFFT(size) {
     
         report("WASMkissfft", start, middle, end, total);
     
-        // fft.dispose();
+        fft.dispose();
     }
     
     function testWASMkissFFTCC(size) {
@@ -298,7 +298,7 @@ function testWASMkissFFT(size) {
     
         report("WASMkissfftcc", start, middle, end, total);
     
-        // fft.dispose();
+        fft.dispose();
     }
 
 var sizes = [ 4, 8, 512, 2048 ];

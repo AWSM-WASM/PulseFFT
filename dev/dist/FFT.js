@@ -14,9 +14,9 @@ var kiss_fftri = kissFFTModule.cwrap(
     'kiss_fftri', 'void', ['number', 'number', 'number' ]
 );
 
-// var kiss_fftr_free = kissFFTModule.cwrap(
-//     'kiss_fftr_free', 'void', ['number']
-// );
+var kiss_fftr_free = kissFFTModule.cwrap(
+    'kiss_fftr_free', 'void', ['number']
+);
 
 var kiss_fft_alloc = kissFFTModule.cwrap(
     'kiss_fft_alloc', 'number', ['number', 'number', 'number', 'number' ]
@@ -26,9 +26,9 @@ var kiss_fft = kissFFTModule.cwrap(
     'kiss_fft', 'void', ['number', 'number', 'number' ]
 );
 
-// var kiss_fft_free = kissFFTModule.cwrap(
-//     'kiss_fft_free', 'void', ['number']
-// );
+var kiss_fft_free = kissFFTModule.cwrap(
+    'kiss_fft_free', 'void', ['number']
+);
 
 function KissFFT(size) {
 
@@ -57,11 +57,11 @@ function KissFFT(size) {
 				this.outptr, this.size * 2);
     }
     
-    // this.dispose = function() {
-	// kissFFTModule._free(this.inptr);
-	// kiss_fft_free(this.fcfg);
-	// kiss_fft_free(this.icfg);
-    // }
+    this.dispose = function() {
+	kissFFTModule._free(this.inptr);
+	kiss_fft_free(this.fcfg);
+	kiss_fft_free(this.icfg);
+    }
 }
 
 function KissFFTR(size) {
@@ -91,11 +91,11 @@ function KissFFTR(size) {
 				this.rptr, this.size);
     }
     
-    // this.dispose = function() {
-	// kissFFTModule._free(this.rptr);
-	// kiss_fftr_free(this.fcfg);
-	// kiss_fftr_free(this.icfg);
-    // }
+    this.dispose = function() {
+	kissFFTModule._free(this.rptr);
+	kiss_fftr_free(this.fcfg);
+	kiss_fftr_free(this.icfg);
+    }
 }
 
 //============WASMkissFFT=================//
@@ -157,11 +157,11 @@ function WASMkissFFT(size) {
 				this.outptr, this.size * 2);
     }
     
-    // this.dispose = function() {
-	// WASMkissFFTModule._free(this.inptr);
-	// WASMkiss_fft_free(this.fcfg);
-	// WASMkiss_fft_free(this.icfg);
-    // }
+    this.dispose = function() {
+	WASMkissFFTModule._free(this.inptr);
+	WASMkissFFTModule._free(this.fcfg);
+	WASMkissFFTModule._free(this.icfg);
+    }
 }
 
 function WASMkissFFTR(size) {
@@ -191,9 +191,9 @@ function WASMkissFFTR(size) {
 				this.rptr, this.size);
     }
     
-    // this.dispose = function() {
-	// kissFFTModule._free(this.rptr);
-	// kiss_fftr_free(this.fcfg);
-	// kiss_fftr_free(this.icfg);
-    // }
+    this.dispose = function() {
+	WASMkissFFTModule._free(this.rptr);
+	WASMkissFFTModule._free(this.fcfg);
+	WASMkissFFTModule._free(this.icfg);
+    }
 }
