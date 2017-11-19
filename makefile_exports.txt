@@ -1,4 +1,6 @@
 [
+    '_free',
+    '_malloc',
     '_kiss_fftr_alloc',
     '_kiss_fftr',
     '_kiss_fftri',

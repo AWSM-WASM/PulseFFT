@@ -20,10 +20,8 @@ WASMkissFFT.js: dev/c/kiss_fft.c dev/h/kiss_fft.h dev/h/_kiss_fft_guts.h dev/c/k
 	emcc -O3 -I. \
 		--memory-init-file 0 \
 		-s WASM=1 \
-		-s NO_FILESYSTEM=1 \
-		-s NO_BROWSER=1 \
-		-s MODULARIZE=1 \
-		-s EXPORT_NAME="'WASMkissFFTModule'" \
+		-s ALLOW_MEMORY_GROWTH=1 \
+		-s BINARYEN_IMPRECISE=1 \
 		-s EXPORTED_FUNCTIONS="$(VARIABLE)" \
 		-o WASMkissFFT.js \
 		dev/c/kiss_fft.c dev/c/kiss_fftr.c
