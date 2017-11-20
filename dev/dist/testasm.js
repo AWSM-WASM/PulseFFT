@@ -1,5 +1,3 @@
-// test.js
-
 var webaudio_tooling_obj = function () {
 
   var audioContext = new AudioContext();
@@ -170,7 +168,7 @@ var iterations = 2000;
 
 function report(name, start, middle, end, total) {
     function addTo(tag, thing) {
-	document.getElementById(name + "-" + tag).innerHTML += thing + "<br>";
+	    document.getElementById(name + "-" + tag).innerHTML += thing + "<br>";
     }
     addTo("result", total);
     addTo("1", Math.round(middle - start) + " ms");
@@ -193,8 +191,9 @@ function testKissFFT(size) {
 	if (i == iterations) {
 	    middle = performance.now();
 	}
-	var ri = inputReals(size);
-	var out = fft.forward(ri);
+    var ri = inputReals(size);    
+    var out = fft.forward(ri);
+    
 	for (var j = 0; j <= size/2; ++j) {
 	    total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
 	}
@@ -209,7 +208,7 @@ function testKissFFT(size) {
 
     report("kissfft", start, middle, end, total);
 
-    // fft.dispose();
+    fft.dispose();
 }
 
 function testKissFFTCC(size) {
@@ -227,7 +226,8 @@ function testKissFFTCC(size) {
 	    middle = performance.now();
 	}
 	var cin = inputInterleaved(size);
-	var out = fft.forward(cin);
+    var out = fft.forward(cin);
+    
 	for (var j = 0; j < size; ++j) {
 	    total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
 	}
@@ -237,72 +237,10 @@ function testKissFFTCC(size) {
 
     report("kissfftcc", start, middle, end, total);
 
-    // fft.dispose();
+    fft.dispose();
 }
-
-function testWASMkissFFT(size) {
-    
-        var fft = new WASMkissFFTR(size);
-    
-        var start = performance.now();
-        var middle = start;
-        var end = start;
-    
-        total = 0.0;
-    
-        for (var i = 0; i < 2*iterations; ++i) {
-        if (i == iterations) {
-            middle = performance.now();
-        }
-        var ri = inputReals(size);
-        var out = fft.forward(ri);
-        for (var j = 0; j <= size/2; ++j) {
-            total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-        }
-        // KissFFTR returns only the first half of the output (plus
-        // DC/Nyquist) -- synthesise the conjugate half
-        for (var j = 1; j < size/2; ++j) {
-            total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-        }
-        }
-    
-        var end = performance.now();
-    
-        report("WASMkissfft", start, middle, end, total);
-    
-        // fft.dispose();
-    }
-    
-    function testWASMkissFFTCC(size) {
-    
-        var fft = new WASMkissFFT(size);
-    
-        var start = performance.now();
-        var middle = start;
-        var end = start;
-    
-        total = 0.0;
-    
-        for (var i = 0; i < 2*iterations; ++i) {
-        if (i == iterations) {
-            middle = performance.now();
-        }
-        var cin = inputInterleaved(size);
-        var out = fft.forward(cin);
-        for (var j = 0; j < size; ++j) {
-            total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-        }
-        }
-    
-        var end = performance.now();
-    
-        report("WASMkissfftcc", start, middle, end, total);
-    
-        // fft.dispose();
-    }
-
-var sizes = [ 4, 8, 512, 2048 ];
-var tests = [testKissFFT, testKissFFTCC, testWASMkissFFT, testWASMkissFFTCC];
+var sizes = [ 4, 8, 512, 2048, 4096 ];
+var tests = [testKissFFT, testKissFFTCC] //, testWASMkissFFT, testWASMkissFFTCC];
 var nextTest = 0;
 var nextSize = 0;
 var interval;
@@ -320,11 +258,11 @@ function test() {
     size = sizes[nextSize];
     nextTest++;
     f(size);
-    interval = setInterval(test, 100);
+    interval = setInterval(test, 200);
 }
 
 window.onload = function() {
     document.getElementById("test-description").innerHTML =
-	"Running " + 2*iterations + " iterations per implementation.<br>Timings are given separately for the first half of the run (" + iterations + " iterations) and the second half, in case the JS engine takes some warming up.<br>Each cell contains results for the following buffer sizes: " + sizes[0] + ', ' + sizes[1] + ', ' + sizes[2] + ', ' + sizes[3] + '.';
-    interval = setInterval(test, 100);
+	"Running " + 2*iterations + " iterations per implementation.<br>Timings are given separately for the first half of the run (" + iterations + " iterations) and the second half, in case the JS engine takes some warming up.<br>Each cell contains results for the following buffer sizes: " + sizes[0] + ', ' + sizes[1] + ', ' + sizes[2] + ', ' + sizes[3] + ', ' + sizes[4] + '.';
+    interval = setInterval(test, 200);
 }
