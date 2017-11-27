@@ -1,64 +1,45 @@
-## Fast Fourier Transform library using the power of WebAssembly (.wasm)
+WebAssembly workflow
+=
+[![Build Status](https://travis-ci.org/DanRuta/webassembly-workflow.svg?branch=master)](https://travis-ci.org/DanRuta/webassembly-workflow) JS: [![Coverage Status](https://coveralls.io/repos/github/DanRuta/webassembly-workflow/badge.svg?branch=master)](https://coveralls.io/github/DanRuta/webassembly-workflow?branch=master) C++ [![codecov](https://codecov.io/gh/DanRuta/webassembly-workflow/branch/master/graph/badge.svg)](https://codecov.io/gh/DanRuta/webassembly-workflow)
+---
 
-### Install
+This is a project shell to use for starting new WebAssembly projects. The workflow has been configured with task runners for packaging JavaScript files, to compile C++ with emscripten, and to minify both.
 
-Before you begin please do a git clone and then an install of EMSCRIPTEN on your local machine. 
+# Read more
+Medium article with set-up instructions, and some suggestions for alternatives:
 
-$ git clone https://github.com/juj/emsdk.git
-
-$ cd emsdk
-
-$ ./emsdk install latest
-
-$ ./emsdk activate latest
+https://medium.com/@DanRuta/setting-up-the-ultimate-webassembly-c-workflow-6484efa3e162
 
 
- or
- 
- 
-$ git clone https://github.com/juj/emsdk.git
+JavaScript unit tests were set up with Mocha+Chai, and with sinon (and sinon-chai) for mocking. C++ unit testss were set up with google test, with the included google mock for mocking.
 
-$ cd emsdk
-
-$ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
-
-$ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
-
-Additional instructions about webAssembly and general questions can be directed here: http://webassembly.org/getting-started/developers-guide/
-
-afterwards git clone the following into your emsdk directory
-https://github.com/AWSM-WASM/FFTWASM.git
-
-NPM start - Use this npm command to point your paths to your current directory, run the KissFFT and WASMkissFFT scripts in your Makefile.emscripten. Afterwards it'll start up your local server
-
-## Web Audio Examples - JavaScript
-
-### audio-helper.js
-* Provides a helper function which loads an audio samples with an
-  AJAX call into an audio buffer.
-
-### frequency-visualizer.js
-* Turns a canvas element into an animated frequency bar visualization
-  when connected to an _AudioNode_.
-
-### spectrogram-visualizer.js
-* Turns a canvas element into an moving spectrogram when connected to
-  an _AudioNode_.
+Travis was configured for CI, and test coverage is reported to Coveralls for JavaScript and to Codecov for C++.
 
 
-## Copyright and License
+# Setting it all up
 
-Copyright 2013-2017 Blackrock Digital LLC. Code released under the [MIT](https://github.com/BlackrockDigital/startbootstrap-bare/blob/gh-pages/LICENSE) license.
+Make sure to clone the repo recursively, in order to get the Google Test framework.
 
-Copyright (c) 2003-2010 Mark Borgerding
+```
+git clone --recursive https://github.com/DanRuta/webassembly-workflow.git
+```
 
-All rights reserved.
+When finished, run ```npm run build```. This will build the project into a build folder, and it will also install all the npm dependencies.
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+**Make sure to run this through MinGW if using Windows**
 
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the author nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+# Developing
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Run grunt in a separate terminal (can be cmd in Windows, doesn't matter). When you save a JavaScript dev file, all files will be merged and minified. When you save a C++ dev file, they will be compiled to WebAssembly using emscripten.
 
+I've included some sample code as a tiny app that serves to show how it all gets built.
+
+To get WebAssembly to run in the browser, you must serve it via a server. Just run ```node server``` to use the included one and go to localhost:1337 in the browser. I've also included a tiny node-demo.js file to show how WebAssembly might be loaded into a nodejs environment.
+
+**Make sure to install emscripten first, at "C:/emsdk". If you've installed it elsewhere, or have installed it globally, just change the path in the gruntfile.**
+
+# Contribuiting
+
+I've tried to make this as easy as possible to use, with as little set up as possible, while keeping it Windows friendly. If there are ways to improve it, or if there are really useful things that can be added, I'd be glad to accept feedback and / or pull requests.
+
+One thing I was not able to get done in the time I had for this, but would be awesome to have, was seeing the C++ test coverage while developing (It can only be seen on codecov), due to how messy it was to set up gcov/lcov on Windows.
