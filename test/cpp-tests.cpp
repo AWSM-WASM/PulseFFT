@@ -1,4 +1,4 @@
-#include "../cpp/kiss_fft.cpp"
+#include "../cpp/main.cpp"
 #include "cpp-mocks.cpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"

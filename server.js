@@ -13,8 +13,8 @@ http.createServer((request, response) => {
 
     console.log(path)
 
-    if (path=="/appWASM.wasm") {
-        path = "/dist"+path
+    if (path=="/WASMKissFFT.wasm") {
+        path = "/src"+path
     }
 
     try{

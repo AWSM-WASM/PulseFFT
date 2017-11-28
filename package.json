@@ -9,7 +9,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "build": "rm -rf build && mkdir build && cd build && cmake .. && npm install",
-    "cpp-setup": "cd ./build && make ./cpp-tests",
+    "cpp-setup": "cd ./build && make cpp-tests",
     "start": "source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && emrun --no_browser --port 8000 .",
     "clean": "make clean -f Makefile.emscripten"
   },
@@ -44,13 +44,6 @@
   "devDependencies": {
     "browser-sync": "2.18.13",
     "chai": "3.5.0",
-    "coveralls": "^2.13.1",
-    "grunt": "^1.0.1",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-exec": "^3.0.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "mocha-lcov-reporter": "^1.3.0",

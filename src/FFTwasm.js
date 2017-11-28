@@ -2,13 +2,13 @@ var Module = {};
 
 loadWASM = () => {
   return new Promise((resolve) => {
-    fetch('dist/WASMkissFFT.wasm')    // load the .wasm file
+    fetch('src/WASMkissFFT.wasm')    // load the .wasm file
       .then(response => response.arrayBuffer())
       .then((buffer) => {    //return ArrayBuffer
         Module.wasmBinary = buffer;   // assign buffer to Module
         
         const script = document.createElement('script');
-        script.src = 'dist/WASMkissFFT.js';   // set script source
+        script.src = 'src/WASMkissFFT.js';   // set script source
         script.type='text/javascript';
         script.onload = () => {    // once script has loaded
           console.log("Loaded Emscripten.");

@@ -240,35 +240,8 @@ function testKissFFTCC(size) {
     fft.dispose();
 }
 
-function testNockert(size) {
-    
-    var fft = new FFT.complex(size, false);
-    
-    var start = performance.now();
-    var middle = start;
-    var end = start;
-
-    total = 0.0;
-
-    for (var i = 0; i < 2*iterations; ++i) {
-	if (i == iterations) {
-	    middle = performance.now();
-	}
-	var ri = inputReal64s(size);
-	var co = new Float32Array(2 * size);
-	fft.simple(co, ri, 'real');
-	for (var j = 0; j < size; ++j) {
-	    total += Math.sqrt(co[j*2] * co[j*2] + co[j*2+1] * co[j*2+1]);
-	}
-    }
-
-    var end = performance.now();
-
-    report("nockert", start, middle, end, total);
-}
-
 var sizes = [ 4, 8, 512, 2048, 4096 ];
-var tests = [testKissFFT, testKissFFTCC, testNockert] //, testWASMkissFFT, testWASMkissFFTCC];
+var tests = [testKissFFT, testKissFFTCC] //, testWASMkissFFT, testWASMkissFFTCC];
 var nextTest = 0;
 var nextSize = 0;
 var interval;

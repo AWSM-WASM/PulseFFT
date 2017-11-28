@@ -6,7 +6,7 @@ const sinon = require("sinon")
 chai.use(sinonChai)
 const expect = chai.expect
 
-const {Main} = require("../dist/FFTwasm.js")
+const {Main} = require("../src/FFTwasm.js")
 
 // For mocking
 const fakeModule = {
