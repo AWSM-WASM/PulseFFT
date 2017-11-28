@@ -1,0 +1,9 @@
+[submodule "googletest"]
+    path = test/googletest
+    url = https://github.com/google/googletest.git
+[submodule "test/googletest"]
+	path = test/googletest
+	url = https://github.com/google/googletest.git
+[submodule "src/kissfft"]
+	path = src/kissfft
+	url = https://github.com/bazaar-projects/kissfft.git

@@ -1,187 +1,197 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>FFT speed test</title>
-
+    <title>Scrolling Nav - Start Bootstrap Template</title>
     <link href="style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style/audio.css" rel="stylesheet" />
-    
-    <style type="text/css">
-      body 
-      { 
-        margin-top: 5%;
-        margin-bottom: 5%;
-        padding-top: 54px;
-      }
-      
-      @media (min-width: 992px) 
-      {
-        body {
-          padding-top: 56px;
-        }
-      }
-
-      table, td, th 
-      { 
-        border: 0.1em solid #e0e0e0; border-collapse: collapse 
-      }
-
-      td, th 
-      { 
-        padding: 0.5em 
-      }
-
-      .label 
-      {
-        width: 80px;
-      }
-
-      .slider 
-      {
-        width: 200px;
-      }
-    </style>
+    <link href="style/css/scrolling-nav.css" rel="stylesheet">
   </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+  <body id="page-top">
+    <header class="front">
+      <div class="container text-center">
+        <h1>Welcome to Scrolling Nav</h1>
+        <p class="lead">A landing page template freshly redesigned for Bootstrap 4</p>
+      </div>
       <div class="container">
-        <a class="navbar-brand" href="#">FFT.WASM</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <!-- <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-          </ul> -->
-        </div>
+          <div class="row">
+                    <div class="col-lg-3" style = "padding-top: 100px">
+                      <span class="label">Gain</span>
+                      <input type="range" id="gain-slider" class="slider" min="-20" max="20" step="1" value="0" />
+                      <span id="gain-display" class="label">0 db</span>
+                      <select id="vis-select">
+                          <option value="Frequency">frequency</option>
+                          <option value="Spectrogram">spectrogram</option>
+                        </select><br/>
+                    </div>
+                    <div class="col-lg-2">
+                      <canvas id="visualizer" width="800px" height="300px"></canvas>                            
+                    </div>
+            </div>
+          </div>
       </div>
-    </nav>
-    <div class="container">
+    </header>
+
+    <section id="about">
+      <div class="container-fluid">
         <div class="row">
-                  <div class="col-lg-3" style = "padding-top: 100px">                      
-                    <span class="label">Gain</span>
-                    <input type="range" id="gain-slider" class="slider" min="-20" max="20" step="1" value="0" />
-                    <span id="gain-display" class="label">0 db</span>
-                    <select id="vis-select">
-                        <option value="Frequency">frequency</option>
-                        <option value="Spectrogram">spectrogram</option>
-                      </select><br/>
-                  </div>
-                  <div class="col-lg-9">
-                      <canvas id="visualizer" width="650" height="300"></canvas>
-                  </div>
+          <div class="col-lg-5">
+            <h2>About this page</h2>
+            <p id="test-description"></p>              
+          </div>
+          <div class="col-lg-7">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Implementation</th>
+                  <th scope="col">Result</th>
+                  <th scope="col">Time (1st half)</th>
+                  <th scope="col">Time (2nd half)</th>
+                  <th scope="col">Rate (2nd half)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">FFT:asm</th>
+                  <td id="kissfft-result"></td>
+                  <td id="kissfft-1"></td>
+                  <td id="kissfft-2"></td>
+                  <td id="kissfft-itr"></td>
+                </tr>
+                <tr>
+                  <th scope="row">FFT:asm (c2c)</th>
+                  <td id="kissfftcc-result"></td>
+                  <td id="kissfftcc-1"></td>
+                  <td id="kissfftcc-2"></td>
+                  <td id="kissfftcc-itr"></td>
+                </tr>
+                <tr>
+                  <th scope="row">FFT:wasm</th>
+                  <td id="WASMkissfft-result"></td>
+                  <td id="WASMkissfft-1"></td>
+                  <td id="WASMkissfft-2"></td>
+                  <td id="WASMkissfft-itr"></td>
+                </tr>
+                <tr>
+                  <th scope="row">FFT:wasm (c2c)</th>  
+                  <td id="WASMkissfftcc-result"></td>
+                  <td id="WASMkissfftcc-1"></td>
+                  <td id="WASMkissfftcc-2"></td>
+                  <td id="WASMkissfftcc-itr"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <br>
-
-    <div class="container">
+    <section id="services" class="bg-light">
+      <div class="container">
         <div class="row">
-          <div class="col-lg-3">
-              <p id="test-description"></p>              
-          </div>                
-          <div class="col-lg-8">
-                <table>
-                  <tr>
-                    <th>Implementation</th><th>Result</th><th>Time (first half)</th><th>Time (second half)</th><th>Rate (second half)</th>
-                  </tr>
-                  <tr>
-                    <td>FFT:asm</td><td id="kissfft-result"></td><td id="kissfft-1"></td><td id="kissfft-2"></td><td id="kissfft-itr"></td>
-                  </tr>
-                  <tr>
-                    <td>FFT:asm (c2c)</td><td id="kissfftcc-result"></td><td id="kissfftcc-1"></td><td id="kissfftcc-2"></td><td id="kissfftcc-itr"></td>
-                  </tr>
-                  <tr>
-                    <td>FFT:wasm</td><td id="WASMkissfft-result"></td><td id="WASMkissfft-1"></td><td id="WASMkissfft-2"></td><td id="WASMkissfft-itr"></td>
-                  </tr>
-                  <tr>
-                    <td>FFT:wasm (c2c)</td><td id="WASMkissfftcc-result"></td><td id="WASMkissfftcc-1"></td><td id="WASMkissfftcc-2"></td><td id="WASMkissfftcc-itr"></td>
-                  </tr>
-                </table>
+          <div class="col-lg-8 mx-auto">
+            <h2>Services we offer</h2>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut velit dignissimos.</p>
           </div>
         </div>
       </div>
-    </body>
+    </section>
+
+    <section id="blog" class="bg-white">
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-preview">
+                  <a href="post.html">
+                    <h2 class="post-title">
+                      Man must explore, and this is exploration at its greatest
+                    </h2>
+                    <h3 class="post-subtitle">
+                      Problems look mighty small from 150 miles up
+                    </h3>
+                  </a>
+                  <p class="post-meta">Posted by
+                    <a href="#">Start Bootstrap</a>
+                    on September 24, 2017</p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                  <a href="post.html">
+                    <h2 class="post-title">
+                      I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
+                    </h2>
+                  </a>
+                  <p class="post-meta">Posted by
+                    <a href="#">Start Bootstrap</a>
+                    on September 18, 2017</p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                  <a href="post.html">
+                    <h2 class="post-title">
+                      Science has not yet mastered prophecy
+                    </h2>
+                    <h3 class="post-subtitle">
+                      We predict too much for the next year and yet far too little for the next ten.
+                    </h3>
+                  </a>
+                  <p class="post-meta">Posted by
+                    <a href="#">Start Bootstrap</a>
+                    on August 24, 2017</p>
+                </div>
+                <hr>
+              </div>
+            </div>
+          </div>
+    </section>
+
+    <section id="profiles" class="bg-light">
+      <div class="container">  
+        <div class="row">
+          <div class="col-lg-4 col-sm-6 text-center mb-4">
+            <img class="rounded-circle img-fluid d-block mx-auto" src="http://placehold.it/200x200" alt="">
+            <h3>John Smith</h3>
+            <h4>Job Title</h4>
+          </div>
+          <div class="col-lg-4 col-sm-6 text-center mb-4">
+            <img class="rounded-circle img-fluid d-block mx-auto" src="http://placehold.it/200x200" alt="">
+            <h3>John Smith</h3>
+            <h4>Job Title</h4>
+          </div>
+          <div class="col-lg-4 col-sm-6 text-center mb-4">
+            <img class="rounded-circle img-fluid d-block mx-auto" src="http://placehold.it/200x200" alt="">
+            <h3>John Smith</h3>
+            <h4>Job Title</h4>
+          </div>
+        </div>
+      </div>
+    </section>
   
-    <script src="dev/dist/KissFFT.js"></script>
-    <!-- <script src="WASMkissFFT.js"></script> -->
-    <script src="FFTwasm.js"></script>
-    <script src="dev/dist/FFTasm.js"></script>
-    <script src="dev/dist/testasm.js"></script>
-    <script type="text/javascript" src="dev/dist/audio-helper.js"></script>
-    <script type="text/javascript" src="dev/dist/frequency-visualizer.js"></script>
-    <script type="text/javascript" src="dev/dist/spectrogram-visualizer.js"></script>
-    <script src="style/jquery/jquery.min.js"></script>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <script src="src/KissFFT.js"></script>
+    <script src="src/FFTwasm.js"></script>
+    <script src="bench/FFTasm.js"></script>
+    <script src="bench/testasm.js"></script>
+    <script type="text/javascript" src="sample/audio-helper.js"></script>
+    <script type="text/javascript" src="sample/frequency-visualizer.js"></script>
+    <script type="text/javascript" src="sample/spectrogram-visualizer.js"></script>
+    <script type="text/javascript" src="sample/audio.js"></script>        
+    <!-- Bootstrap core JavaScript -->
+    <script src="style/bootstrap/jquery/jquery.min.js"></script>
     <script src="style/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-      (function () {
-        var context = new AudioContext();
-        var visCanvas = document.getElementById('visualizer')
-        var visualizer = new App.FrequencyVisualizer(context, visCanvas);
-        var gain = 0;
-        var audioSource
-  
-        navigator.getUserMedia =
-          navigator.getUserMedia ||
-          navigator.webkitGetUserMedia ||
-          navigator.mozGetUserMedia ||
-          navigator.msGetUserMedia;
-  
-        if (navigator.getUserMedia) {
-          navigator.getUserMedia (
-            {
-              audio: true,
-              video: false
-            },
-            function (stream) {
-              audioSource = context.createMediaStreamSource(stream);
-              visualizer.acceptConnection(audioSource);
-            },
-            function (err) {
-               console.log('Error initializing user media stream: ' + err);
-            }
-          );
-        }
-  
-        var gainDisplay = document.getElementById('gain-display');
-        var gainSlider = document.getElementById('gain-slider');
-  
-        gainSlider.addEventListener('input', function () {
-          gain = parseFloat(gainSlider.value)
-          gainDisplay.textContent = gain + ' db';
-          visualizer.gain = gain;
-        });
-  
-        var visSelect = document.getElementById('vis-select');
-        visSelect.addEventListener('change', changeVisualizer);
-  
-        function changeVisualizer() {
-          visualizer.releaseConnection(audioSource);
-          visualizer.stop();
-          visualizer = new App[visSelect.value + "Visualizer"](context, visCanvas);
-          visualizer.gain = gain;
-          visualizer.acceptConnection(audioSource);
-        }
-      })();
-    </script>
-</body>
+    <!-- Plugin JavaScript -->
+    <script src="style/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom JavaScript for this theme -->
+    <script src="style/js/scrolling-nav.js"></script>
+  </body>
 </html>

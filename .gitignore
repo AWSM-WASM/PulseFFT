@@ -1,2 +1,7 @@
 node_modules
-npm-debug.log
+.nyc_output
+coverage
+Plan.todo
+*.stackdump
+/test/googletest/
+/build

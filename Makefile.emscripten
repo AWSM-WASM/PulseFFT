@@ -5,7 +5,7 @@ VARIABLE=`cat $(EXPORTS_FILE)`
 LDFLAGS=-O2 --llvm-opts 2
 
 
-KissFFT.js:	dev/c/kiss_fft.c dev/h/kiss_fft.h dev/h/_kiss_fft_guts.h dev/c/kiss_fftr.c dev/h/kiss_fftr.h Makefile.emscripten
+KissFFT.js:	src/kissfft/kiss_fft.c src/kissfft/kiss_fft.h src/kissfft/_kiss_fft_guts.h src/kissfft/tools/kiss_fftr.c src/kissfft/tools/kiss_fftr.h Makefile.emscripten
 	emcc -O3 -I. \
 		--memory-init-file 0 \
 		-s NO_FILESYSTEM=1 \
@@ -13,20 +13,20 @@ KissFFT.js:	dev/c/kiss_fft.c dev/h/kiss_fft.h dev/h/_kiss_fft_guts.h dev/c/kiss_
 		-s MODULARIZE=1 \
 		-s EXPORT_NAME="'KissFFTModule'" \
 		-s EXPORTED_FUNCTIONS="['_free','_kiss_fftr_alloc','_kiss_fftr','_kiss_fftri','_kiss_fftr_free','_kiss_fft_alloc','_kiss_fft','_kiss_fft_free',]" \
-		-o dev/dist/KissFFT.js \
-		dev/c/kiss_fft.c dev/c/kiss_fftr.c
+		-o src/KissFFT.js \
+		src/kissfft/kiss_fft.c src/kissfft/tools/kiss_fftr.c
 
-WASMkissFFT.js: dev/c/kiss_fft.c dev/h/kiss_fft.h dev/h/_kiss_fft_guts.h dev/c/kiss_fftr.c dev/h/kiss_fftr.h Makefile.emscripten
+WASMkissFFT.js: src/kissfft/kiss_fft.c src/kissfft/kiss_fft.h src/kissfft/_kiss_fft_guts.h src/kissfft/tools/kiss_fftr.c src/kissfft/tools/kiss_fftr.h Makefile.emscripten
 	emcc -O3 -I. \
 		--memory-init-file 0 \
 		-s WASM=1 \
 		-s ALLOW_MEMORY_GROWTH=1 \
 		-s BINARYEN_IMPRECISE=1 \
 		-s EXPORTED_FUNCTIONS="$(VARIABLE)" \
-		-o WASMkissFFT.js \
-		dev/c/kiss_fft.c dev/c/kiss_fftr.c
+		-o src/WASMkissFFT.js \
+		src/kissfft/kiss_fft.c src/kissfft/tools/kiss_fftr.c
 
 clean:
-	rm -f dev/dist/KissFFT.js
-	rm -f WASMkissFFT.js
-	rm -f WASMkissFFT.wasm
+	rm -f src/KissFFT.js
+	rm -f src/WASMkissFFT.js
+	rm -f src/WASMkissFFT.wasm
