@@ -1,3 +1,7 @@
+SOURCES:=$(example *.c)
+EXPORTS_FILE=makefile_exports.txt
+VARIABLE=`cat $(EXPORTS_FILE)`
+LDFLAGS=-O2 --llvm-opts 2
 
 KissFFT.js:	src/kissfft/kiss_fft.c src/kissfft/kiss_fft.h src/kissfft/_kiss_fft_guts.h src/kissfft/tools/kiss_fftr.c src/kissfft/tools/kiss_fftr.h Makefile.emscripten
 	emcc -O3 -I. \
