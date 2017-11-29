@@ -5,4 +5,4 @@ Plan.todo
 *.stackdump
 /test/googletest/
 /build
-src/kissfft
+pulse/src/kissfft

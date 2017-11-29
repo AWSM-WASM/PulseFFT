@@ -64,7 +64,7 @@ function report(name, start, middle, end, total) {
 			     ((end - middle) / iterations))) + " itr/sec");
 }
 
-function testKissFFT(size) {
+function testFFTasm(size) {
 
     var fft = new KissFFTR(size);
 
@@ -98,7 +98,7 @@ function testKissFFT(size) {
     fft.dispose();
 }
 
-function testKissFFTCC(size) {
+function testFFTCCasm(size) {
 
     var fft = new KissFFT(size);
 
@@ -127,7 +127,7 @@ function testKissFFTCC(size) {
     fft.dispose();
 }
 
-function testWASMkissFFT(size) {
+function testFFTwasm(size) {
     var fft = new pulse.fftReal(size);
     console.log("fft?", fft);
     console.log("pulsey?", pulse.fftReal);
@@ -160,7 +160,7 @@ function testWASMkissFFT(size) {
     fft.dispose();
   }
             
-  function testWASMkissFFTCC(size) {
+  function testFFTCCwasm(size) {
     var fft = new pulse.fftComplex(size);
             
     var start = performance.now();
@@ -188,7 +188,7 @@ function testWASMkissFFT(size) {
   }
 
 var sizes = [ 4, 8, 512, 2048, 4096 ];
-var tests = [testKissFFT, testKissFFTCC, testWASMkissFFT, testWASMkissFFTCC] //, testWASMkissFFT, testWASMkissFFTCC];
+var tests = [testFFTasm, testFFTCCasm, testFFTwasm, testFFTCCwasm]
 var nextTest = 0;
 var nextSize = 0;
 var interval;

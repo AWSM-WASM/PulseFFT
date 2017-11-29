@@ -6,7 +6,7 @@ const sinon = require("sinon")
 chai.use(sinonChai)
 const expect = chai.expect
 
-const {Main} = require("../src/index.js")
+const {Main} = require("../pulse/index.js")
 
 // For mocking
 const fakeModule = {

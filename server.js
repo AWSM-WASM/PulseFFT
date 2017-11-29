@@ -14,7 +14,7 @@ http.createServer((request, response) => {
     console.log(path)
 
     if (path=="/WASMKissFFT.wasm") {
-        path = "/src"+path
+        path = "/pulse"+path
     }
 
     try{

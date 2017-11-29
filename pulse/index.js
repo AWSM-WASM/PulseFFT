@@ -2,28 +2,27 @@ var Module = {};
 
 loadPulse = () => {
   return new Promise((resolve, reject) => {
-    fetch('src/WASMkissFFT.wasm')    // load the .wasm file
+    fetch('pulse/src/wasmkissfft.wasm')
     .then(console.log("made it into loadpulse"))
       .then(response => response.arrayBuffer())
       .then(console.log("step into m"))
-      .then((m) => {    //return ArrayBuffer
-        Module.wasmBinary = m;   // assign buffer to Module
+      .then((m) => {
+        Module.wasmBinary = m;
         
         script = document.createElement('script');
-        script.src = 'src/WASMkissFFT.js';   // set script source
+        script.src = 'pulse/src/wasmkissfft.js';
         script.type='text/javascript';
-        script.onload = () => {    // once script has loaded
+        script.onload = () => {
           console.log("Loaded Emscripten.");
         };
         doneEvent = new Event('done');
         script.addEventListener('done', buildPulse);
-
-        document.body.appendChild(script); // append script to DOM
-        console.log("about to declare buildpulse")
+        document.body.appendChild(script);
 
         function buildPulse() {
+
           const pulse = {};
-          console.log("inside buildpulse")
+
           pulse['fftComplex'] = function (size) {
             this.size = size;
             this.fcfg = _kiss_fft_alloc(size, false);
@@ -80,12 +79,8 @@ loadPulse = () => {
             _free(this.icfg);
           }
         }
-
-
-        console.log("pulse", pulse);
         resolve(pulse);
       }
-      // return buildPulse();
     })
   })
 }
