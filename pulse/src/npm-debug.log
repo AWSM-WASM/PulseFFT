@@ -1,0 +1,39 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/jyz/Code/emsdk/node/4.1.1_64bit/bin/node',
+1 verbose cli   '/Users/jyz/Code/emsdk/node/4.1.1_64bit/bin/npm',
+1 verbose cli   'start' ]
+2 info using npm@2.14.4
+3 info using node@v4.1.1
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info prestart pulseFFT@1.0.0
+6 info start pulseFFT@1.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info pulseFFT@1.0.0 Failed to exec start script
+9 verbose stack Error: pulseFFT@1.0.0 start: `source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && sed -i .bak 's/else{doRun()}/&script.dispatchEvent(doneEvent);/' pulse/src/wasmkissfft.js && emrun --no_browser --port 8000 .`
+9 verbose stack Exit status 1
+9 verbose stack     at EventEmitter.<anonymous> (/Users/jyz/Code/emsdk/node/4.1.1_64bit/lib/node_modules/npm/lib/utils/lifecycle.js:214:16)
+9 verbose stack     at emitTwo (events.js:87:13)
+9 verbose stack     at EventEmitter.emit (events.js:172:7)
+9 verbose stack     at ChildProcess.<anonymous> (/Users/jyz/Code/emsdk/node/4.1.1_64bit/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+9 verbose stack     at emitTwo (events.js:87:13)
+9 verbose stack     at ChildProcess.emit (events.js:172:7)
+9 verbose stack     at maybeClose (internal/child_process.js:817:16)
+9 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+10 verbose pkgid pulseFFT@1.0.0
+11 verbose cwd /Users/jyz/Code/emsdk/FFTWASM/pulse/src
+12 error Darwin 16.7.0
+13 error argv "/Users/jyz/Code/emsdk/node/4.1.1_64bit/bin/node" "/Users/jyz/Code/emsdk/node/4.1.1_64bit/bin/npm" "start"
+14 error node v4.1.1
+15 error npm  v2.14.4
+16 error code ELIFECYCLE
+17 error pulseFFT@1.0.0 start: `source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && sed -i .bak 's/else{doRun()}/&script.dispatchEvent(doneEvent);/' pulse/src/wasmkissfft.js && emrun --no_browser --port 8000 .`
+17 error Exit status 1
+18 error Failed at the pulseFFT@1.0.0 start script 'source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && sed -i .bak 's/else{doRun()}/&script.dispatchEvent(doneEvent);/' pulse/src/wasmkissfft.js && emrun --no_browser --port 8000 .'.
+18 error This is most likely a problem with the pulseFFT package,
+18 error not with npm itself.
+18 error Tell the author that this fails on your system:
+18 error     source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && sed -i .bak 's/else{doRun()}/&script.dispatchEvent(doneEvent);/' pulse/src/wasmkissfft.js && emrun --no_browser --port 8000 .
+18 error You can get their info via:
+18 error     npm owner ls pulseFFT
+18 error There is likely additional logging output above.
+19 verbose exit [ 1, true ]
