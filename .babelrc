@@ -1,0 +1,11 @@
+{
+    "presets": [
+        "./.babelrc.js",
+        [
+        "es2015", { "modules": false}
+        ]
+    ],
+    "plugins": [
+        "external-helpers"
+    ]
+}

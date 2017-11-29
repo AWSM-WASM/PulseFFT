@@ -1,10 +1,8 @@
-const Module = {};
+'use strict';
 
 const pulse = async () => {
   const response = await fetch('...');
   const m = await response.arrayBuffer();
-  Module.wasmBinary = m;
-  
   console.log("in buffering");
   const script = document.createElement('script');
   script.src = 'src/WASMkissFFT.js'; 
@@ -12,7 +10,7 @@ const pulse = async () => {
   script.onload = () => console.log("Loaded Emscripten.");
   document.body.appendChild(script); 
   
-  console.log("WASM loaded!")
+  console.log("WASM loaded!");
   return {
     fftComplex(size) {
       this.size = size;
@@ -30,18 +28,18 @@ const pulse = async () => {
         m._kiss_fft(this.fcfg, this.inptr, this.outptr);
         return new Float32Array(m.HEAPU8.buffer,
           this.outptr, this.size * 2);
-      }
+      };
       this.inverse = function(cin) {
         this.cin.set(cpx);
         m._kiss_fft(this.icfg, this.inptr, this.outptr);
         return new Float32Array(m.HEAPU8.buffer,
           this.outptr, this.size * 2);
-      }   
+      };   
       this.dispose = function() {
         m._free(this.inptr);
         m._free(this.fcfg);
         m._free(this.icfg);
-      }
+      };
     },
     fftReal(size) {
       this.size = size;
@@ -58,19 +56,26 @@ const pulse = async () => {
         this.ri.set(real);
         m._kiss_fftr(this.fcfg, this.rptr, this.cptr);
         return new Float32Array(m.HEAPU8.buffer, this.cptr, this.size + 2); 
-      }
+      };
       this.inverse = function(cpx) {
         this.ci.set(cpx);
         m._kiss_fftri(this.icfg, this.cptr, this.rptr);
         return new Float32Array(m.HEAPU8.buffer, this.rptr, this.size);
-      }
+      };
       this.dispose = function() {
         m._free(this.rptr);
         m._free(this.fcfg);
         m._free(this.icfg);
-      }
+      };
     }
   };
+};
+
+// const pulse = require("./");
+
+async function test() {
+    const testing = await pulse();
+    console.log(testing);
 }
 
-export default pulse;
+module.exports = test;

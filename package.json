@@ -2,18 +2,31 @@
   "title": "AWSM.WASM",
   "name": "fftwasm",
   "version": "4.0.0-beta.2",
-  "description": "",
+  "description": "A WebAssembly implementation of FFT",
   "scripts": {
     "start": "source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && emrun --no_browser --port 8080 .",
-    "clean": "make clean -f Makefile.emscripten"
+    "clean": "make clean -f Makefile.emscripten",
+    "build-browser": "rollup -c",
+    "build-node": "TARGET=node rollup -c"
   },
+  "main": "src/index.umd.js",
+  "module": "src/index.esm.js",
+  "files": [
+    "cjs",
+    "esm",
+    "umd"
+  ],
   "keywords": [
     "css",
     "sass",
     "html",
     "responsive",
     "theme",
-    "template"
+    "template",
+    "pulse",
+    "fft",
+    "wasm",
+    "webassembly"
   ],
   "homepage": "",
   "bugs": {
@@ -33,10 +46,22 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-beta.2",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "xxhash-wasm": "^0.3.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
     "browser-sync": "2.18.13",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "rollup": "^0.52.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "uglify-es": "^3.2.0"
   }
 }

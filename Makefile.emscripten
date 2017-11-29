@@ -1,5 +1,5 @@
 SOURCES:=$(example *.c)
-EXPORTS_FILE=makefile_exports.txt
+EXPORTS_FILE=src/makefile_exports.txt
 VARIABLE=`cat $(EXPORTS_FILE)`
 LDFLAGS=-O2 --llvm-opts 2
 
@@ -18,11 +18,9 @@ WASMkissFFT.js: src/kissfft/kiss_fft.c src/kissfft/kiss_fft.h src/kissfft/_kiss_
 	emcc -O3 -I. \
 		--memory-init-file 0 \
 		-s WASM=1 \
-		-s NO_FILESYSTEM=1 \
-		-s NO_BROWSER=1 \
-		-s MODULARIZE=1 \
-		-s EXPORT_NAME="'WASMkissFFTModule'" \
-		-s EXPORTED_FUNCTIONS="['_kiss_fftr_alloc','_kiss_fftr','_kiss_fftri','_kiss_fftr_free','_kiss_fft_alloc','_kiss_fft','_kiss_fft_free',]" \
+		-s ALLOW_MEMORY_GROWTH=1 \
+		-s BINARYEN_IMPRECISE=1 \
+		-s EXPORTED_FUNCTIONS="$(VARIABLE)" \
 		-o src/WASMkissFFT.js \
 		src/kissfft/kiss_fft.c src/kissfft/tools/kiss_fftr.c
 
