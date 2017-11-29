@@ -13,7 +13,7 @@ KissFFT.js:	src/kissfft/kiss_fft.c src/kissfft/kiss_fft.h src/kissfft/_kiss_fft_
 		-s MODULARIZE=1 \
 		-s EXPORT_NAME="'KissFFTModule'" \
 		-s EXPORTED_FUNCTIONS="['_free','_kiss_fftr_alloc','_kiss_fftr','_kiss_fftri','_kiss_fftr_free','_kiss_fft_alloc','_kiss_fft','_kiss_fft_free',]" \
-		-o src/KissFFT.js \
+		-o bench/kissFFTasm.js \
 		src/kissfft/kiss_fft.c src/kissfft/tools/kiss_fftr.c
 
 WASMkissFFT.js: src/kissfft/kiss_fft.c src/kissfft/kiss_fft.h src/kissfft/_kiss_fft_guts.h src/kissfft/tools/kiss_fftr.c src/kissfft/tools/kiss_fftr.h Makefile.emscripten
@@ -27,6 +27,6 @@ WASMkissFFT.js: src/kissfft/kiss_fft.c src/kissfft/kiss_fft.h src/kissfft/_kiss_
 		src/kissfft/kiss_fft.c src/kissfft/tools/kiss_fftr.c
 
 clean:
-	rm -f src/KissFFT.js
+	rm -f bench/kissFFTasm.js
 	rm -f src/WASMkissFFT.js
 	rm -f src/WASMkissFFT.wasm
