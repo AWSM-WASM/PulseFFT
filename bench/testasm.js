@@ -161,7 +161,7 @@ function testWASMkissFFT(size) {
   }
             
   function testWASMkissFFTCC(size) {
-    var fft = pulse.fftComplex(size);
+    var fft = new pulse.fftComplex(size);
             
     var start = performance.now();
     var middle = start;
