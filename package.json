@@ -4,7 +4,7 @@
   "description": "A WebAssembly implementation of the Fast Fourier Transform library kissFFT",
   "scripts": {
     "test": "nyc mocha test/js-tests.js",
-    "start": "source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && node server.js",
+    "start": "source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && sed -i .bak 's/else{doRun()}/&script.dispatchEvent(doneEvent);/' pulse/src/wasmkissfft.js && node server.js",
     "clean": "make clean -f Makefile.emscripten"
   },
   "repository": {

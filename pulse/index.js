@@ -8,7 +8,7 @@ loadPulse = () => {
       .then(console.log("step into m"))
       .then((m) => {
         Module.wasmBinary = m;
-        
+
         script = document.createElement('script');
         script.src = 'pulse/src/wasmkissfft.js';
         script.type='text/javascript';
@@ -20,20 +20,19 @@ loadPulse = () => {
         document.body.appendChild(script);
 
         function buildPulse() {
-
           const pulse = {};
 
           pulse['fftComplex'] = function (size) {
             this.size = size;
             this.fcfg = _kiss_fft_alloc(size, false);
             this.icfg = _kiss_fft_alloc(size, true);
-            
+
             this.inptr = _malloc(size*8 + size*8);
             this.outptr = this.inptr + size*8;
-            
+
             this.cin = new Float32Array(HEAPU8.buffer, this.inptr, size*2);
             this.cout = new Float32Array(HEAPU8.buffer, this.outptr, size*2);
-            
+
             this.forward = function(cin) {
               this.cin.set(cin);
               _kiss_fft(this.fcfg, this.inptr, this.outptr);
@@ -51,18 +50,18 @@ loadPulse = () => {
               _free(this.fcfg);
               _free(this.icfg);
             }
-        }; 
+        };
         pulse['fftReal'] = function (size) {
           this.size = size;
           this.fcfg = _kiss_fftr_alloc(size, false);
           this.icfg = _kiss_fftr_alloc(size, true);
-              
+
           this.rptr = _malloc(size*4 + (size+2)*4);
           this.cptr = this.rptr + size*4;
-              
+
           this.ri = new Float32Array(HEAPU8.buffer, this.rptr, size);
           this.ci = new Float32Array(HEAPU8.buffer, this.cptr, size+2);
-              
+
           this.forward = function(real) {
             this.ri.set(real);
             _kiss_fftr(this.fcfg, this.rptr, this.cptr);
@@ -79,6 +78,8 @@ loadPulse = () => {
             _free(this.icfg);
           }
         }
+
+        console.log(pulse);
         resolve(pulse);
       }
     })

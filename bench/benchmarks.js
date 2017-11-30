@@ -78,9 +78,9 @@ function testFFTasm(size) {
 	if (i == iterations) {
 	    middle = performance.now();
 	}
-    var ri = inputReals(size);    
+    var ri = inputReals(size);
     var out = fft.forward(ri);
-    
+
 	for (var j = 0; j <= size/2; ++j) {
 	    total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
 	}
@@ -114,7 +114,7 @@ function testFFTCCasm(size) {
 	}
 	var cin = inputInterleaved(size);
     var out = fft.forward(cin);
-    
+
 	for (var j = 0; j < size; ++j) {
 	    total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
 	}
@@ -135,9 +135,9 @@ function testFFTwasm(size) {
     var start = performance.now();
     var middle = start;
     var end = start;
-            
+
     total = 0.0;
-            
+
     for (var i = 0; i < 2*iterations; ++i) {
       if (i == iterations) {
         middle = performance.now();
@@ -154,21 +154,21 @@ function testFFTwasm(size) {
       }
     }
     var end = performance.now();
-       
+
     report("WASMkissfft", start, middle, end, total);
-            
+
     fft.dispose();
   }
-            
+
   function testFFTCCwasm(size) {
     var fft = new pulse.fftComplex(size);
-            
+
     var start = performance.now();
     var middle = start;
     var end = start;
-            
+
     total = 0.0;
-            
+
     for (var i = 0; i < 2*iterations; ++i) {
       if (i == iterations) {
         middle = performance.now();
@@ -179,11 +179,11 @@ function testFFTwasm(size) {
         total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
       }
     }
-            
+
     var end = performance.now();
-            
+
     report("WASMkissfftcc", start, middle, end, total);
-            
+
     fft.dispose();
   }
 
