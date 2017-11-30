@@ -5,7 +5,7 @@ A WebAssembly implementation of kissFFT, the 'keep-it-simple-stupid' Fast Fourie
 ## Sample app
 
 Watch Pulse convert real-time microphone input from the time/space domain to the frequency domain.
-![Frequency Spectrum](https://github.com/AWSM-WASM/PulseFFT/blob/master/assets/PulseFFT.gif)
+<p align="center"><img src=https://github.com/AWSM-WASM/PulseFFT/blob/master/assets/PulseFFT.gif alt="Frequency Spectrum"></p>
 
 ## Get Started
 
