@@ -211,7 +211,8 @@ function test() {
 
 window.onload = function() {
     document.getElementById("test-description").innerHTML =
-	"Running " + 2*iterations + " iterations per implementation.<br>Timings are given separately for the first half of the run (" + iterations + " iterations) and the second half, in case the JS engine takes some warming up.<br>Each cell contains results for the following buffer sizes: " + sizes[0] + ', ' + sizes[1] + ', ' + sizes[2] + ', ' + sizes[3] + ', ' + sizes[4] + '.';
+    "The table above compares two fft functions from the kissfft library compiled to both assembly and WebAssembly. 4000 iterations of each algorithm were performed on sample data of several different sizes (4, 8, 512, 2048, and  4096).<br> The times for the first and second half of each test are shown separately to elucidate any differences caused by the Javascript engine warming up. The last column shows the rate at which each algorithm performed the 4000 iterations. For the larger buffer sizes, the Web Assembly compiled functions are consistently faster than their assembly copiled counterparts."
+	// "Running " + 2*iterations + " iterations per implementation.<br>Timings are given separately for the first half of the run (" + iterations + " iterations) and the second half, in case the JS engine takes some warming up.<br>Each cell contains results for the following buffer sizes: " + sizes[0] + ', ' + sizes[1] + ', ' + sizes[2] + ', ' + sizes[3] + ', ' + sizes[4] + '.';
     interval = setInterval(test, 200);
 }
 

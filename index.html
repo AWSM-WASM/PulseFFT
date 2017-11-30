@@ -1,186 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Scrolling Nav - Start Bootstrap Template</title>
-    <link href="style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style/css/scrolling-nav.css" rel="stylesheet">
-  </head>
 
-  <body id="page-top">
-    <header class="front">
-      <div class="container text-center">
-        <h1>Pulse</h1>
-        <p class="lead">A WebAssembly implementation of kissFFT.</p>
-      </div>
-      <div class="container">
-          <div class="row">
-                    <div id="graph"></div>
-            </div>
-          </div>
-      </div>
-    </header>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>PulseFFT</title>
+  <link rel="icon" href="assets/logo.jpg" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="style/bootstrap/css/bootstrap-social.css" rel="stylesheet">
+  <link href="style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style/css/scrolling-nav.css" rel="stylesheet">
+</head>
 
-    <section id="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-5">
-            <h2>Performance Benchmarks</h2>
-            <p id="test-description"></p>
-          </div>
-          <div class="col-lg-7">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">Implementation</th>
-                  <th scope="col">Result</th>
-                  <th scope="col">Time (1st half)</th>
-                  <th scope="col">Time (2nd half)</th>
-                  <th scope="col">Rate (2nd half)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">FFT:asm</th>
-                  <td id="kissfft-result"></td>
-                  <td id="kissfft-1"></td>
-                  <td id="kissfft-2"></td>
-                  <td id="kissfft-itr"></td>
-                </tr>
-                <tr>
-                  <th scope="row">FFT:asm (c2c)</th>
-                  <td id="kissfftcc-result"></td>
-                  <td id="kissfftcc-1"></td>
-                  <td id="kissfftcc-2"></td>
-                  <td id="kissfftcc-itr"></td>
-                </tr>
-                <tr>
-                  <th scope="row">FFT:wasm</th>
-                  <td id="WASMkissfft-result"></td>
-                  <td id="WASMkissfft-1"></td>
-                  <td id="WASMkissfft-2"></td>
-                  <td id="WASMkissfft-itr"></td>
-                </tr>
-                <tr>
-                  <th scope="row">FFT:wasm (c2c)</th>
-                  <td id="WASMkissfftcc-result"></td>
-                  <td id="WASMkissfftcc-1"></td>
-                  <td id="WASMkissfftcc-2"></td>
-                  <td id="WASMkissfftcc-itr"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+<body id="page-top">
+  <header class="front">
+    <div class="container text-center">
+      <h1>Pulse</h1>
+    </div>
+    <div class="container text-center">
+      <img class="rounded-circle img-fluid d-block mx-auto" src="assets/logo.jpg" alt="" style="height: 200px; width: 200px">
+      <div id="graph"></div>
+    </div>
+    <div class="container text-center">
+      <h2>A WebAssembly implementation of kissFFT.</h2>
+    </div>
+    <div class="container">
+      <div class="row">
+        <p class="lead">
+          We are PulseFFT, an easy to use and versatile Fast Fourier Transform library for signal processing on the web.
+          <br>
+          <br>          
+          Having compiled the KissFFT library through the power of WebAssembly, we have taken advantage of the inherent power and speed of lower level languages like C. 
+          <br>
+          <br>          
+          This project provides forward and inverse FFTs for both real and complex inputs that can be used for spectral analysis such as the example sound visualizer above.
+        </p>
+      </div>
+    </div>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class ="col-lg-4">
+        </div>
+        <div class ="col-lg-4">
+            <a class="btn btn-block btn-social btn-lg btn-github" href="https://github.com/AWSM-WASM/PulseFFT" role="button">
+            <i class="fa fa-github"></i>
+            Check us out on github
+            </a>
+        </div>
+        <div class ="col-lg-4">
         </div>
       </div>
-    </section>
+    </div>
+  </header>
 
-    <section id="services" class="bg-light">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h2>Services we offer</h2>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut velit dignissimos.</p>
-          </div>
+  <section id="performance">
+    <div class="container text-center">
+      <h2>Performance Benchmarks</h2>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Implementation</th>
+                <th scope="col">Buffer Size</th>
+                <th scope="col">Time (1st half)</th>
+                <th scope="col">Time (2nd half)</th>
+                <th scope="col">Rate (2nd half)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">FFT:asm</th>
+                <td id="kissfft-result"></td>
+                <td id="kissfft-1"></td>
+                <td id="kissfft-2"></td>
+                <td id="kissfft-itr"></td>
+              </tr>
+              <tr>
+                <th scope="row">FFT:asm (c2c)</th>
+                <td id="kissfftcc-result"></td>
+                <td id="kissfftcc-1"></td>
+                <td id="kissfftcc-2"></td>
+                <td id="kissfftcc-itr"></td>
+              </tr>
+              <tr>
+                <th scope="row">FFT:wasm</th>
+                <td id="WASMkissfft-result"></td>
+                <td id="WASMkissfft-1"></td>
+                <td id="WASMkissfft-2"></td>
+                <td id="WASMkissfft-itr"></td>
+              </tr>
+              <tr>
+                <th scope="row">FFT:wasm (c2c)</th>
+                <td id="WASMkissfftcc-result"></td>
+                <td id="WASMkissfftcc-1"></td>
+                <td id="WASMkissfftcc-2"></td>
+                <td id="WASMkissfftcc-itr"></td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <p id="test-description"></p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="blog" class="bg-white">
-        <div class="container-fluid">
+  <!-- <section id="services" class="bg-white">
+    <div class="container">
+      <div class="row">
+        <div class="container text-center">
+          <h2>Installation</h2>
+        </div>
+        <div class="col-lg-8 mx-auto">
+          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita quo laboriosam possimus
+            ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut velit dignissimos.</p>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- <section id="blog" class="bg-white">
+    <div class="container text-center">
+      <h1>Blogs</h1>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-preview">
+            <a href="post.html">
+              <h2 class="post-title">
+                Man must explore, and this is exploration at its greatest
+              </h2>
+              <h3 class="post-subtitle">
+                Problems look mighty small from 150 miles up
+              </h3>
+            </a>
+            <p class="post-meta">Posted by
+              <a href="#">Start Bootstrap</a>
+              on September 24, 2017</p>
+          </div>
+          <hr>
+          <div class="post-preview">
+            <a href="post.html">
+              <h2 class="post-title">
+                I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
+              </h2>
+            </a>
+            <p class="post-meta">Posted by
+              <a href="#">Start Bootstrap</a>
+              on September 18, 2017</p>
+          </div>
+          <hr>
+          <div class="post-preview">
+            <a href="post.html">
+              <h2 class="post-title">
+                Science has not yet mastered prophecy
+              </h2>
+              <h3 class="post-subtitle">
+                We predict too much for the next year and yet far too little for the next ten.
+              </h3>
+            </a>
+            <p class="post-meta">Posted by
+              <a href="#">Start Bootstrap</a>
+              on August 24, 2017</p>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <section id="profiles" class="bg-white">
+    <div class="container text-center">
+      <h1>About Us</h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-sm-6 text-center mb-4">
+          <img class="rounded-circle img-fluid d-block mx-auto" src="assets/JZ.jpg" alt="" style="height: 300px; width: 300px">
+          <h3>Jo Zhou</h3>
+          <h4>Software Engineer</h4>
+          <div class="container">
             <div class="row">
-              <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="post-preview">
-                  <a href="post.html">
-                    <h2 class="post-title">
-                      Man must explore, and this is exploration at its greatest
-                    </h2>
-                    <h3 class="post-subtitle">
-                      Problems look mighty small from 150 miles up
-                    </h3>
-                  </a>
-                  <p class="post-meta">Posted by
-                    <a href="#">Start Bootstrap</a>
-                    on September 24, 2017</p>
-                </div>
-                <hr>
-                <div class="post-preview">
-                  <a href="post.html">
-                    <h2 class="post-title">
-                      I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
-                    </h2>
-                  </a>
-                  <p class="post-meta">Posted by
-                    <a href="#">Start Bootstrap</a>
-                    on September 18, 2017</p>
-                </div>
-                <hr>
-                <div class="post-preview">
-                  <a href="post.html">
-                    <h2 class="post-title">
-                      Science has not yet mastered prophecy
-                    </h2>
-                    <h3 class="post-subtitle">
-                      We predict too much for the next year and yet far too little for the next ten.
-                    </h3>
-                  </a>
-                  <p class="post-meta">Posted by
-                    <a href="#">Start Bootstrap</a>
-                    on August 24, 2017</p>
-                </div>
-                <hr>
+              <div class="col-lg-3">
+              </div>
+              <div class="col-lg-3">
+                <a href="https://github.com/thejozhou" class="btn btn-social-icon btn-lg btn-github">
+                  <span class="fa fa-github"></span>
+                </a>
+              </div>
+              <div class="col-lg-3">
+                <a href="https://www.linkedin.com/in/thejozhou/" class="btn btn-social-icon btn-lg btn-linkedin">
+                  <span class="fa fa-linkedin"></span>
+                </a>
+              </div>
+              <div class="col-lg-3">
               </div>
             </div>
           </div>
-    </section>
-
-    <section id="profiles" class="bg-light">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-sm-6 text-center mb-4">
-            <img class="rounded-circle img-fluid d-block mx-auto" src="http://placehold.it/200x200" alt="">
-            <h3>John Smith</h3>
-            <h4>Job Title</h4>
+        </div>
+        <div class="col-lg-4 col-sm-6 text-center mb-4">
+          <img class="rounded-circle img-fluid d-block mx-auto" src="assets/AA.jpg" alt="" style="height: 300px; width: 300px">
+          <h3>Augusto Alvarez</h3>
+          <h4>Software Engineer</h4>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3">
+              </div>
+              <div class="col-lg-3">
+                <a href="https://github.com/augustohalvarez" class="btn btn-social-icon btn-lg btn-github">
+                  <span class="fa fa-github"></span>
+                </a>
+              </div>
+              <div class="col-lg-3">
+                <a href="https://www.linkedin.com/in/augusto-alvarez-870a483b/" class="btn btn-social-icon btn-lg btn-linkedin">
+                  <span class="fa fa-linkedin"></span>
+                </a>
+              </div>
+              <div class="col-lg-3">
+              </div>
+            </div>
           </div>
-          <div class="col-lg-4 col-sm-6 text-center mb-4">
-            <img class="rounded-circle img-fluid d-block mx-auto" src="http://placehold.it/200x200" alt="">
-            <h3>John Smith</h3>
-            <h4>Job Title</h4>
-          </div>
-          <div class="col-lg-4 col-sm-6 text-center mb-4">
-            <img class="rounded-circle img-fluid d-block mx-auto" src="http://placehold.it/200x200" alt="">
-            <h3>John Smith</h3>
-            <h4>Job Title</h4>
+        </div>
+        <div class="col-lg-4 col-sm-6 text-center mb-4">
+          <img class="rounded-circle img-fluid d-block mx-auto" src="assets/CK.jpg" alt="" style="height: 300px; width: 300px">
+          <h3>Chris Kim</h3>
+          <h4>Software Engineer</h4>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3">
+              </div>
+              <div class="col-lg-3">
+                <a href="https://github.com/Ckimchris" class="btn btn-social-icon btn-lg btn-github">
+                  <span href="#" class="fa fa-github"></span>
+                </a>
+              </div>
+              <div class="col-lg-3">
+                <a href="https://www.linkedin.com/in/ckimchris/" class="btn btn-social-icon btn-lg btn-linkedin">
+                  <span class="fa fa-linkedin"></span>
+                </a>
+              </div>
+              <div class="col-lg-3">
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+  <!-- d3 DCN -->
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="pulse/index.js"></script>
+  <script src="demo/kissFFTasm.js"></script>
+  <script src="demo/FFTasm.js"></script>
+  <script src="demo/benchmarks.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="style/bootstrap/jquery/jquery.min.js"></script>
+  <script src="style/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Plugin JavaScript -->
+  <script src="style/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Custom JavaScript for this theme -->
+  <script src="style/js/scrolling-nav.js"></script>
 
-    <!-- d3 DCN -->
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</body>
 
-    <script src="demo/kissFFTasm.js"></script>
-    <script src="pulse/index.js"></script>
-    <script src="demo/FFTasm.js"></script>
-    <script src="demo/benchmarks.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script src="style/bootstrap/jquery/jquery.min.js"></script>
-    <script src="style/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Plugin JavaScript -->
-    <script src="style/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Custom JavaScript for this theme -->
-    <script src="style/js/scrolling-nav.js"></script>
-
-  </body>
 </html>

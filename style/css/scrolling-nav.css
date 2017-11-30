@@ -4,18 +4,18 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-scrolling-nav/blob/master/LICENSE)
  */
 
-header {
-  padding: 154px 0 100px;
+ header {
+  padding: 10px 0 50px;
 }
 
 @media (min-width: 992px) {
   header {
-    padding: 156px 0 100px;
+    padding: 10px 0 50px;
   }
 }
 
 section {
-  padding: 150px 0;
+  padding: 50px 0;
 }
 
 .rounded-circle{
