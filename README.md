@@ -87,8 +87,8 @@ https://github.com/AWSM-WASM/FFTWASM.git
 NPM start - Use this npm command to point your paths to your current directory, run the KissFFT and WASMkissFFT scripts in your Makefile.emscripten. Afterwards it'll start up your local server
 
 ## Collaborators
-[Jo Zhou](https://github.com/thejozhou)
-[Augusto Alvarez](https://github.com/augustohalvarez)
+[Jo Zhou](https://github.com/thejozhou)  
+[Augusto Alvarez](https://github.com/augustohalvarez)  
 [Chris Kim](https://github.com/ckimchris)
 
 
