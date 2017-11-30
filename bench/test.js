@@ -1,6 +1,6 @@
 import pulse from "./../src/index.js";
-
-const { fftComplex, fftReal } = await pulse();
+// var pulse = require('../src/index.js')
+// const { fftComplex, fftReal } = await pulse();
 
 /* Utility functions to generate arbitrary input in various formats */
 function inputReals(size) {
@@ -122,7 +122,8 @@ function testKissFFTCC(size) {
 }
 
 function testWASMkissFFT(size) {
-    var fft = new fftReal(size);
+    const real = await pulse();
+    var fft = new real.fftReal(size);
     console.log("running wasmkissfft test");
     var start = performance.now();
     var middle = start;
@@ -153,7 +154,8 @@ function testWASMkissFFT(size) {
   }
             
   function testWASMkissFFTCC(size) {
-    var fft = new fftComplex(size);
+    const complex = await pulse();
+    var fft = new complex.fftComplex(size);
             
     var start = performance.now();
     var middle = start;

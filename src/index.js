@@ -1,7 +1,7 @@
 const Module = {};
 
 const pulse = async () => {
-  const response = await fetch('...');
+  const response = await fetch('WASMkissFFT.wasm');
   const m = await response.arrayBuffer();
   Module.wasmBinary = m;
   
