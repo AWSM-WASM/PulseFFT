@@ -24,16 +24,7 @@ $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
 npm install --save pulsefft
 ```
 
-### From Unpkg
-
-ES Modules
-```
-<script type = "module">import pulsefft from "https://unpkg.com/pulsefft/esm/pulsefft.js";</script>
-```
-UMD build
-```
-<script src="https://umpkg.com/pulsefft/umd/pulsefft.js"></script>
-```
+[//]: # (From Unpkg ES Modules ```<script type = "module">import pulsefft from "https://unpkg.com/pulsefft/esm/pulsefft.js";</script>```UMD build```<script src="https://umpkg.com/pulsefft/umd/pulsefft.js"></script>```)
 
 ## Usage
 
@@ -64,6 +55,8 @@ fft.forward(input)
 ### Output
 
 ## Performance tests
+
+For the benchmark test, 4000 iterations were performed on sample data of several different sizes (4, 8, 512, 2048, and  4096) on both .asm and .wasm formats. Both single-precision real and complex to complex FFT forwards were performed. The times for the first and second half of each test are shown separately to elucidate any differences caused by the Javascript engine warming up. The last column shows the rate at which each algorithm performed the 4000 iterations. For the larger buffer sizes, the Web Assembly compiled functions are consistently faster than their assembly copiled counterparts.
 
 ## Development
 
