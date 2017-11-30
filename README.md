@@ -24,16 +24,7 @@ $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
 npm install --save pulsefft
 ```
 
-### From Unpkg
-
-ES Modules
-```
-<script type = "module">import pulsefft from "https://unpkg.com/pulsefft/esm/pulsefft.js";</script>
-```
-UMD build
-```
-<script src="https://umpkg.com/pulsefft/umd/pulsefft.js"></script>
-```
+[//]: # (From Unpkg ES Modules ```<script type = "module">import pulsefft from "https://unpkg.com/pulsefft/esm/pulsefft.js";</script>```UMD build```<script src="https://umpkg.com/pulsefft/umd/pulsefft.js"></script>```)
 
 ## Usage
 
