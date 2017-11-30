@@ -1,21 +1,15 @@
 {
-  "name": "pulseFFT",
+  "name": "pulsefft",
   "version": "1.0.0",
-  "description": "A WebAssembly implementation of kissFFT",
+  "description": "A WebAssembly shell project, set up with task runners, testing and CI for JS and C++",
   "scripts": {
-    "test": "npm run js-tests && npm run cpp-tests",
-    "js-tests": "nyc mocha test/js-tests.js",
-    "cpp-tests": "cd ./build && make && ./cpp-tests",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
-    "build": "rm -rf build && mkdir build && cd build && cmake .. && npm install",
-    "cpp-setup": "cd ./build && make cpp-tests",
-    "start": "source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && sed -i .bak 's/else{doRun()}/&script.dispatchEvent(doneEvent);/' pulse/src/wasmkissfft.js && emrun --no_browser --port 8000 .",
+    "test": "nyc mocha test/js-tests.js",
+    "start": "source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && node server.js",
     "clean": "make clean -f Makefile.emscripten"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DanRuta/webassembly-workflow.git"
+    "url": "git+https://github.com/AWSM.WASM/PulseFFT.git"
   },
   "keywords": [
     "css",
@@ -25,30 +19,41 @@
     "theme",
     "template"
   ],
-  "main": "dist/app.min.js",
-  "author": "Dan Ruta",
+  "main": "pulse/index.js",
+  "author": "AWSM.WASM",
   "license": "MIT",
   "directories": {},
   "bugs": {
-    "url": "https://github.com/DanRuta/webassembly-workflow/issues"
+    "url": "https://github.com/AWSM.WASM/PulseFFT/issues"
   },
   "engines": {
     "node": ">= 8.4.0"
   },
-  "homepage": "https://github.com/DanRuta/webassembly-workflow#readme",
+  "homepage": "https://github.com/AWSM.WASM/PulseFFT#readme",
   "dependencies": {
     "bootstrap": "^4.0.0-beta.2",
+    "express": "^4.16.2",
+    "fs": "0.0.1-security",
     "jquery": "^3.2.1",
-    "jquery.easing": "^1.4.1"
+    "jquery.easing": "^1.4.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-core": "^6.7.6",
+    "babel-plugin-syntax-async-functions": "^6.5.0",
+    "babel-plugin-transform-regenerator": "^6.6.5",
+    "babel-polyfill": "^6.7.4",
+    "babel-preset-es2015": "^6.6.0",
     "browser-sync": "2.18.13",
     "chai": "3.5.0",
+    "chai-as-promised": "^5.3.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^11.0.2",
     "sinon": "^2.3.2",
-    "sinon-chai": "^2.10.0"
+    "sinon-chai": "^2.10.0",
+    "zombie": "^5.0.7"
   }
 }
