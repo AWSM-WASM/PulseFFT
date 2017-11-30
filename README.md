@@ -73,11 +73,11 @@ git clone --recursive https://github.com/AWSM-WASM/PulseFFT.git
 ```
 When finished, run `npm start`. This wil run the emsdk environment, compile the source code, and start the server at //localhost.8000.
 
-### Setup
+## Setup
 
 KissFFT is not bundled in the source of this repository. 
 
-### Contributing
+## Contributing
 
 Additional instructions about webAssembly and general questions can be directed here: http://webassembly.org/getting-started/developers-guide/
 
@@ -85,3 +85,14 @@ afterwards git clone the following into your emsdk directory
 https://github.com/AWSM-WASM/FFTWASM.git
 
 NPM start - Use this npm command to point your paths to your current directory, run the KissFFT and WASMkissFFT scripts in your Makefile.emscripten. Afterwards it'll start up your local server
+
+## Collaborators
+[Jo Zhou](https://github.com/thejozhou)
+[Augusto Alvarez](https://github.com/augustohalvarez)
+[Chris Kim](https://github.com/ckimchris)
+
+
+## License
+
+PulseFFT is licensed under the MIT License.
+KissFFT is licensed under the Revised BSD License.
