@@ -64,6 +64,7 @@ fft.forward(input)
 ### Output
 
 ## Performance tests
+
 ## Development
 
 Make sure to clone the repo recursively, in order to get KissFFT.
@@ -77,20 +78,26 @@ When finished, run `npm start`. This wil run the emsdk environment, compile the 
 
 KissFFT is not bundled in the source of this repository. 
 
-## Contributing
-
-Additional instructions about webAssembly and general questions can be directed here: http://webassembly.org/getting-started/developers-guide/
-
-afterwards git clone the following into your emsdk directory
-https://github.com/AWSM-WASM/FFTWASM.git
-
-NPM start - Use this npm command to point your paths to your current directory, run the KissFFT and WASMkissFFT scripts in your Makefile.emscripten. Afterwards it'll start up your local server
-
 ## Collaborators
 [Jo Zhou](https://github.com/thejozhou)  
 [Augusto Alvarez](https://github.com/augustohalvarez)  
 [Chris Kim](https://github.com/ckimchris)
 
+## Contributing
+
+Please submit issues/pull requests if you have feedback or message the PulseFFT team to be added as a contributor: PulseFFT@gmal.com
+
+## Roadmap
+
+Here's our top development priorities
+
+* Caching .wasm client-side
+* Enabling >ES6 module loading
+* Refactoring to use async/await
+* Adding robust Mocha/Chai/Sinon testing 
+* Logging / Debugging mode for development, feedback, and error reporting
+* Performance and stability updates
+* Improved documentation
 
 ## License
 
