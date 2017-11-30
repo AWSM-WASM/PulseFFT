@@ -1,7 +1,7 @@
 {
   "name": "pulsefft",
   "version": "1.0.0",
-  "description": "A WebAssembly shell project, set up with task runners, testing and CI for JS and C++",
+  "description": "A WebAssembly implementation of the Fast Fourier Transform library kissFFT",
   "scripts": {
     "test": "nyc mocha test/js-tests.js",
     "start": "source ../emsdk_env.sh --build=Release && make KissFFT.js -f Makefile.emscripten && make WASMkissFFT.js -f Makefile.emscripten && node server.js",
