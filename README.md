@@ -80,7 +80,7 @@ KissFFT is not bundled in the source of this repository.
 
 ## Contributing
 
-Please submit issues/pull requests if you have feedback or message the PulseFFT team to be added as a contributor: PulseFFT@gmal.com
+Please submit issues/pull requests if you have feedback or message the PulseFFT team to be added as a contributor: PulseFFT@gmail.com
 
 ## Roadmap
 
@@ -96,5 +96,5 @@ Here's our top development priorities
 
 ## License
 
-PulseFFT is licensed under the MIT License.
+PulseFFT is licensed under the MIT License.  
 KissFFT is licensed under the Revised BSD License.
