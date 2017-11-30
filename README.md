@@ -1,4 +1,4 @@
-<img align="left" width="100" height="100" src="https://github.com/AWSM-WASM/PulseFFT/blob/master/assets/logo.jpg"><h1>Pulse FFT</h1>
+<img align="left" width="100" height="100" src="https://github.com/AWSM-WASM/PulseFFT/blob/master/assets/logo.jpg"><h1>Pulse FFT</h1></br>
 
 A WebAssembly implementation of kissFFT, the 'keep-it-simple-stupid' Fast Fourier Transform library written in C. This project allows forward and inverse FFTs to be computed with low-level processes in the browser with the performant WebAssembly format.
 
