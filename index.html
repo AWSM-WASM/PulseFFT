@@ -18,18 +18,7 @@
       </div>
       <div class="container">
           <div class="row">
-                    <div class="col-lg-3" style = "padding-top: 100px">
-                      <span class="label">Gain</span>
-                      <input type="range" id="gain-slider" class="slider" min="-20" max="20" step="1" value="0" />
-                      <span id="gain-display" class="label">0 db</span>
-                      <select id="vis-select">
-                          <option value="Frequency">frequency</option>
-                          <option value="Spectrogram">spectrogram</option>
-                        </select><br/>
-                    </div>
-                    <div class="col-lg-2">
-                      <canvas id="visualizer" width="800px" height="300px"></canvas>                            
-                    </div>
+                    <div id="graph"></div>
             </div>
           </div>
       </div>
@@ -40,7 +29,7 @@
         <div class="row">
           <div class="col-lg-5">
             <h2>Performance Benchmarks</h2>
-            <p id="test-description"></p>              
+            <p id="test-description"></p>
           </div>
           <div class="col-lg-7">
             <table class="table table-striped">
@@ -76,7 +65,7 @@
                   <td id="WASMkissfft-itr"></td>
                 </tr>
                 <tr>
-                  <th scope="row">FFT:wasm (c2c)</th>  
+                  <th scope="row">FFT:wasm (c2c)</th>
                   <td id="WASMkissfftcc-result"></td>
                   <td id="WASMkissfftcc-1"></td>
                   <td id="WASMkissfftcc-2"></td>
@@ -149,7 +138,7 @@
     </section>
 
     <section id="profiles" class="bg-light">
-      <div class="container">  
+      <div class="container">
         <div class="row">
           <div class="col-lg-4 col-sm-6 text-center mb-4">
             <img class="rounded-circle img-fluid d-block mx-auto" src="http://placehold.it/200x200" alt="">
@@ -169,7 +158,7 @@
         </div>
       </div>
     </section>
-  
+
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
@@ -178,14 +167,14 @@
       <!-- /.container -->
     </footer>
 
+    <!-- d3 DCN -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
     <script src="bench/kissFFTasm.js"></script>
     <script src="pulse/index.js"></script>
     <script src="bench/FFTasm.js"></script>
     <script src="bench/benchmarks.js"></script>
-    <script type="text/javascript" src="sample/audio-helper.js"></script>
-    <script type="text/javascript" src="sample/frequency-visualizer.js"></script>
-    <script type="text/javascript" src="sample/spectrogram-visualizer.js"></script>
-    <script type="text/javascript" src="sample/audio.js"></script>        
+    <script type="text/javascript" src="sample/audio.js"></script>
     <!-- Bootstrap core JavaScript -->
     <script src="style/bootstrap/jquery/jquery.min.js"></script>
     <script src="style/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -193,5 +182,6 @@
     <script src="style/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom JavaScript for this theme -->
     <script src="style/js/scrolling-nav.js"></script>
+
   </body>
 </html>
