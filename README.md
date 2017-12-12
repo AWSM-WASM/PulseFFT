@@ -52,7 +52,6 @@ fft.forward(input)
 const fft = new pulse.fftComplex(size);
 fft.forward(input)
 ```
-### Output
 
 ## Performance tests
 
