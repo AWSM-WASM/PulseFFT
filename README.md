@@ -68,6 +68,8 @@ git clone --recursive https://github.com/AWSM-WASM/PulseFFT.git
 ```
 When finished, run `npm start`. This wil run the emsdk environment, compile the source code, and start the server at //localhost.8000.
 
+### Demo page coming soon!
+
 ## Setup
 
 KissFFT is not bundled in the source of this repository. 
