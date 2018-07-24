@@ -6,3 +6,6 @@ Plan.todo
 /test/googletest/
 /build
 pulse/src/kissfft
+package-lock.json
+
+

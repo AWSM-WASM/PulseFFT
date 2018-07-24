@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/AWSM.WASM/PulseFFT#readme",
   "dependencies": {
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.1.3",
     "express": "^4.16.2",
     "fs": "0.0.1-security",
     "jquery": "^3.2.1",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
-    "babel-core": "^6.7.6",
+    "babel-core": "^6.26.3",
     "babel-plugin-syntax-async-functions": "^6.5.0",
     "babel-plugin-transform-regenerator": "^6.6.5",
     "babel-polyfill": "^6.7.4",
@@ -51,9 +51,9 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "mocha-lcov-reporter": "^1.3.0",
-    "nyc": "^11.0.2",
+    "nyc": "^11.9.0",
     "sinon": "^2.3.2",
     "sinon-chai": "^2.10.0",
-    "zombie": "^5.0.7"
+    "zombie": "^5.0.8"
   }
 }
