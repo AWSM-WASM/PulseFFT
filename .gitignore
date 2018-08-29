@@ -7,5 +7,6 @@ Plan.todo
 /build
 pulse/src/kissfft
 package-lock.json
+.vscode/*
 
 
