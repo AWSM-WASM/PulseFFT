@@ -3,10 +3,12 @@ var Module = {};
 loadPulse = () => {
   return new Promise((resolve, reject) => {
     fetch('pulse/src/wasmkissfft.wasm')
-    .then(console.log("made it into loadpulse"))
-      .then(response => response.arrayBuffer())
-      .then(console.log("step into m"))
-      .then((m) => {
+      .then(response => {
+        console.log("made it into loadpulse");
+        return response.arrayBuffer();
+      }).then((m) => {
+        console.log("step into m");
+
         Module.wasmBinary = m;
 
         script = document.createElement('script');
