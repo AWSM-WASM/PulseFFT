@@ -17,12 +17,13 @@ $ cd emsdk
 $ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
 $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
 ```
-
+<!--- To do
 ### From npm
 
 ```
 npm install --save pulsefft
 ```
+--->
 
 [//]: # (From Unpkg ES Modules ```<script type = "module">import pulsefft from "https://unpkg.com/pulsefft/esm/pulsefft.js";</script>```UMD build```<script src="https://umpkg.com/pulsefft/umd/pulsefft.js"></script>```)
 
@@ -94,6 +95,7 @@ Here's our top development priorities
 * Logging / Debugging mode for development, feedback, and error reporting
 * Performance and stability updates
 * Improved documentation
+* Bundle and create npm package
 
 ## License
 

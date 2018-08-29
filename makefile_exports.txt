@@ -53,5 +53,5 @@
     '_val2rgb',
     '_cpx2pixels',
     '_transform_signal',
-    '_make_png',
+    '_make_png'
 ]

@@ -129,9 +129,6 @@ function testFFTCCasm(size) {
 
 function testFFTwasm(size) {
     var fft = new pulse.fftReal(size);
-    console.log("fft?", fft);
-    console.log("pulsey?", pulse.fftReal);
-    console.log("running wasmkissfft test");
     var start = performance.now();
     var middle = start;
     var end = start;
