@@ -11,7 +11,7 @@ Watch Pulse convert real-time microphone input from the time/space domain to the
 
 ### Download Emscripten
 
-```
+```bash
 $ git clone https://github.com/juj/emsdk.git
 $ cd emsdk
 $ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
@@ -20,7 +20,7 @@ $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
 
 ### From npm
 
-```
+```bash
 npm install --save pulsefft
 ```
 
@@ -32,7 +32,7 @@ This library is a WebAssembly implementation of kissFFT; consult the [kissFFT RE
 
 ### Instantiate Pulse
 
-```
+```js
 let pulse = {};
 loadPulse()
     .then(module => {
@@ -40,14 +40,13 @@ loadPulse()
     })
 ```
 ### Real Input
-```
+```js
 // Create the WebAssembly instance.
 const fft = new pulse.fftReal(size);
 fft.forward(input)
-
 ```
 ### Complex Input
-```
+```js
 // Create the WebAssembly instance.
 const fft = new pulse.fftComplex(size);
 fft.forward(input)
@@ -63,7 +62,7 @@ For the benchmark test, 4000 iterations were performed on sample data of several
 
 Make sure to clone the repo recursively, in order to get KissFFT.
 
-```
+```bash
 git clone --recursive https://github.com/AWSM-WASM/PulseFFT.git
 ```
 When finished, run `npm start`. This wil run the emsdk environment, compile the source code, and start the server at //localhost.8000.
