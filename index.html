@@ -67,7 +67,7 @@
             <thead>
               <tr>
                 <th scope="col">Implementation</th>
-                <th scope="col">Buffer Size</th>
+                <th scope="col">FFT points</th>
                 <th scope="col">Time (1st half)</th>
                 <th scope="col">Time (2nd half)</th>
                 <th scope="col">Rate (2nd half)</th>
@@ -76,31 +76,45 @@
             <tbody>
               <tr>
                 <th scope="row">FFT:asm</th>
-                <td id="kissfft-result"></td>
+                <td id="kissfft-size"></td>
                 <td id="kissfft-1"></td>
                 <td id="kissfft-2"></td>
                 <td id="kissfft-itr"></td>
               </tr>
               <tr>
                 <th scope="row">FFT:asm (c2c)</th>
-                <td id="kissfftcc-result"></td>
+                <td id="kissfftcc-size"></td>
                 <td id="kissfftcc-1"></td>
                 <td id="kissfftcc-2"></td>
                 <td id="kissfftcc-itr"></td>
               </tr>
               <tr>
                 <th scope="row">FFT:wasm</th>
-                <td id="WASMkissfft-result"></td>
+                <td id="WASMkissfft-size"></td>
                 <td id="WASMkissfft-1"></td>
                 <td id="WASMkissfft-2"></td>
                 <td id="WASMkissfft-itr"></td>
               </tr>
               <tr>
                 <th scope="row">FFT:wasm (c2c)</th>
-                <td id="WASMkissfftcc-result"></td>
+                <td id="WASMkissfftcc-size"></td>
                 <td id="WASMkissfftcc-1"></td>
                 <td id="WASMkissfftcc-2"></td>
                 <td id="WASMkissfftcc-itr"></td>
+              </tr>
+              <tr>
+                <th scope="row">Alba's first JS FFT (c2c)</th>
+                <td id="JSfftcc-size"></td>
+                <td id="JSfftcc-1"></td>
+                <td id="JSfftcc-2"></td>
+                <td id="JSfftcc-itr"></td>
+              </tr>
+              <tr>
+                <th scope="row">Alba's first WASM FFT (c2c)</th>
+                <td id="JSWASMfftcc-size"></td>
+                <td id="JSWASMfftcc-1"></td>
+                <td id="JSWASMfftcc-2"></td>
+                <td id="JSWASMfftcc-itr"></td>
               </tr>
             </tbody>
           </table>
@@ -256,7 +270,7 @@
   </section>
 
   <!-- d3 DCN -->
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="pulse/index.js"></script>
   <script src="demo/kissFFTasm.js"></script>
   <script src="demo/FFTasm.js"></script>

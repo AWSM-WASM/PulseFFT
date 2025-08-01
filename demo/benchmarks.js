@@ -6,58 +6,147 @@ loadPulse()
         console.log("Error in loading module: ", err);
     });
 
+/**
+ * @param {number} N - FFT points (must be a power of 2, and at least 2)
+ * @returns {(x: Float32Array | Float64Array) => Float32Array} FFT function.
+ *   must be passed an array of length 2*N (real0, imag0, real1, imag1, ...).
+ *   the argument will be left untouched and an array of the same length and layout
+ *   will be returned with the result. the first complex number of the array is DC.
+ *   **the buffer is reused/overwritten on future invocations.**
+ */
+function makeFFT(N) {
+	if (N !== (N >>> 0))
+		throw new Error('not an u32')
+	const Nb = Math.log2(N) | 0
+	if (N !== (1 << Nb) || Nb < 1)
+		throw new Error('not a power of two, or too small')
+
+	// calculate the twiddle factors
+	const twiddle = new Float32Array(N)
+	for (let i = 0; i < N/2; i++) {
+		const arg = - 2 * Math.PI * i / N;
+		twiddle[2*i+0] = Math.cos(arg);
+		twiddle[2*i+1] = Math.sin(arg);
+	}
+
+	function phase(
+		/** @type {number} */ idx,
+		/** @type {Float64Array | Float32Array} */ src,
+		/** @type {Float64Array | Float32Array} */ dst,
+	) {
+		const stride = 1 << (Nb - idx), mask = stride - 1
+		for (let o = 0; o < N; o += 2) {
+			const i = o & ~mask, O = o & mask
+			const i1 = (i<<1) + O, i2 = i1 + stride
+			// if JS had complexes: dst[o]   = src[i1] + twiddle[i] * src[i2]
+			//                      dst[o+N] = src[i1] - twiddle[i] * src[i2]
+			const ar = src[i1+0], ai = src[i1+1]
+			const tr = twiddle[i+0], ti = twiddle[i+1]
+			const sr = src[i2+0], si = src[i2+1]
+			const tsr = tr * sr - ti * si
+			const tsi = tr * si + ti * sr
+			dst[o+0] = ar + tsr
+			dst[o+1] = ai + tsi
+			dst[o+N+0] = ar - tsr
+			dst[o+N+1] = ai - tsi
+		}
+	}
+
+	let a = new Float32Array(2*N)
+	let b = new Float32Array(2*N)
+	return function fft(src) {
+		if (src.length !== 2*N)
+			throw new Error('invalid length')
+		phase(0, src, a)
+		for (let idx = 1; idx < Nb; idx++) {
+			phase(idx, a, b)
+			; [a, b] = [b, a]
+		}
+		return a
+	}
+}
+
+/**
+ * @template T
+ * @param {{ buffer: ArrayBuffer, byteOffset: number, byteLength: number }} x
+ * @param {{ new (buffer: ArrayBuffer, offset: number, length: number): T, readonly BYTES_PER_ELEMENT: number }} cls
+ * @returns {T}
+ */
+const cast = (x, cls) => new cls(x.buffer, x.byteOffset, x.byteLength / cls.BYTES_PER_ELEMENT)
+
+const wasmSrc = 'AGFzbQEAAAABCQFgBX9/f39/AAMCAQAFAwEAAAcVAghmZnRQaGFzZQAABm1lbW9yeQIACsQBAcEBAgZ/B30gACACdkECdCIGQQFrIgdBf3MhAiAAQQJ0IQADQCAAIAVKBEAgBSAHcSACIAVxIghBAXRyIgkgA2oiCioCACELIAoqAgQhDCAEIAVqIgogCyABIAhqIggqAgAiECADIAYgCWpqIgkqAgAiEZQgCCoCBCINIAkqAgQiDpSTIg+SOAIAIAogDCAQIA6UIA0gEZSSIg2SOAIEIAAgCmoiCCALIA+TOAIAIAggDCANkzgCBCAFQQhqIQUMAQsLCw=='
+const wasmMod = new WebAssembly.Module(Uint8Array.from(atob(wasmSrc), x => x.charCodeAt(0)))
+const { exports: { memory, fftPhase } } = new WebAssembly.Instance(wasmMod)
+
+let memoryCursor = 0
+function allocate(size, align=1) {
+	memoryCursor += ((-memoryCursor % align) + align) % align
+	const ptr = memoryCursor
+	memoryCursor += size
+	while (memory.buffer.byteLength < memoryCursor)
+		memory.grow(Math.max(1, (memory.buffer.byteLength * 2) / (1<<16)))
+	return new Uint8Array(memory.buffer, ptr, size)
+}
+
+/**
+ * @param {number} N - FFT points (must be a power of 2, and at least 2)
+ * @returns {(x: Float32Array | Float64Array) => Float32Array} FFT function.
+ *   must be passed an array of length 2*N (real0, imag0, real1, imag1, ...).
+ *   the argument will be left untouched and an array of the same length and layout
+ *   will be returned with the result. the first complex number of the array is DC.
+ *   **the buffer is reused/overwritten on future invocations.**
+ */
+function makeFFTwasm(N) {
+	if (N !== (N >>> 0))
+		throw new Error('not an u32')
+	const Nb = Math.log2(N) | 0
+	if (N !== (1 << Nb) || Nb < 1)
+		throw new Error('not a power of two, or too small')
+
+	// calculate the twiddle factors
+	const twiddle = cast(allocate(N*4, 8), Float32Array)
+	for (let i = 0; i < N; i++) {
+		const arg = - 2 * Math.PI * i / N;
+		twiddle[2*i+0] = Math.cos(arg);
+		twiddle[2*i+1] = Math.sin(arg);
+	}
+
+	let a = cast(allocate(2*N*4,8), Float32Array)
+	let b = cast(allocate(2*N*4, 8), Float32Array)
+	return function fft(src) {
+		if (src.length !== 2*N)
+			throw new Error('invalid length')
+		a.set(src)
+		for (let idx = 0; idx < Nb; idx++) {
+			fftPhase(N, twiddle.byteOffset, idx, a.byteOffset, b.byteOffset)
+			; [a, b] = [b, a]
+		}
+		return a
+	}
+}
+
 /* Utility functions to generate arbitrary input in various formats */
 function inputReals(size) {
     var result = new Float32Array(size);
     for (var i = 0; i < result.length; i++)
-	result[i] = (i % 2) / 4.0;
-    return result;
-}
-
-function zeroReals(size) {
-    var result = new Float32Array(size);
-    for (var i = 0; i < result.length; i++)
-	result[i] = 0.0;
+	result[i] = (Math.random()*2-1) / 4.0;
     return result;
 }
 
 function inputInterleaved(size) {
     var result = new Float32Array(size*2);
     for (var i = 0; i < size; i++)
-	result[i*2] = (i % 2) / 4.0;
-    return result;
-}
-
-function inputReal64s(size) {
-    var result = new Float64Array(size);
-    for (var i = 0; i < result.length; i++)
-	result[i] = (i % 2) / 4.0;
-    return result;
-}
-
-function zeroReal64s(size) {
-    var result = new Float64Array(size);
-    for (var i = 0; i < result.length; i++)
-	result[i] = 0.0;
-    return result;
-}
-
-function inputComplexArray(size) {
-    var result = new complex_array.ComplexArray(size);
-    for (var i = 0; i < size; i++) {
-	result.real[i] = (i % 2) / 4.0;
-	result.imag[i] = 0.0;
-    }
+	result[i*2] = (Math.random()*2-1) / 4.0;
     return result;
 }
 
 var iterations = 2000;
 
-function report(name, start, middle, end, total) {
+function report(name, start, middle, end, size) {
     function addTo(tag, thing) {
 	    document.getElementById(name + "-" + tag).innerHTML += thing + "<br>";
     }
-    addTo("result", total);
+    addTo("size", size);
     addTo("1", Math.round(middle - start) + " ms");
     addTo("2", Math.round(end - middle) + " ms");
     addTo("itr", Math.round((1000.0 /
@@ -65,8 +154,8 @@ function report(name, start, middle, end, total) {
 }
 
 function testFFTasm(size) {
-
     var fft = new KissFFTR(size);
+    var ri = [...Array(64)].map(() => inputReals(size));
 
     var start = performance.now();
     var middle = start;
@@ -78,29 +167,19 @@ function testFFTasm(size) {
 	if (i == iterations) {
 	    middle = performance.now();
 	}
-    var ri = inputReals(size);
-    var out = fft.forward(ri);
-
-	for (var j = 0; j <= size/2; ++j) {
-	    total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-	}
-	// KissFFTR returns only the first half of the output (plus
-	// DC/Nyquist) -- synthesise the conjugate half
-	for (var j = 1; j < size/2; ++j) {
-	    total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-	}
+    var out = fft.forward(ri[i%ri.length]);
     }
 
     var end = performance.now();
 
-    report("kissfft", start, middle, end, total);
+    report("kissfft", start, middle, end, size);
 
     fft.dispose();
 }
 
 function testFFTCCasm(size) {
-
     var fft = new KissFFT(size);
+    var cin = [...Array(64)].map(() => inputInterleaved(size));
 
     var start = performance.now();
     var middle = start;
@@ -112,23 +191,20 @@ function testFFTCCasm(size) {
 	if (i == iterations) {
 	    middle = performance.now();
 	}
-	var cin = inputInterleaved(size);
-    var out = fft.forward(cin);
-
-	for (var j = 0; j < size; ++j) {
-	    total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-	}
+    var out = fft.forward(cin[i%cin.length]);
     }
 
     var end = performance.now();
 
-    report("kissfftcc", start, middle, end, total);
+    report("kissfftcc", start, middle, end, size);
 
     fft.dispose();
 }
 
 function testFFTwasm(size) {
     var fft = new pulse.fftReal(size);
+    var ri = [...Array(64)].map(() => inputReals(size));
+  
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -139,26 +215,18 @@ function testFFTwasm(size) {
       if (i == iterations) {
         middle = performance.now();
       }
-      var ri = inputReals(size);
-      var out = fft.forward(ri);
-      for (var j = 0; j <= size/2; ++j) {
-        total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-      }
-      // KissFFTR returns only the first half of the output (plus
-      // DC/Nyquist) -- synthesise the conjugate half
-      for (var j = 1; j < size/2; ++j) {
-        total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-      }
+      var out = fft.forward(ri[i%ri.length]);
     }
     var end = performance.now();
 
-    report("WASMkissfft", start, middle, end, total);
+    report("WASMkissfft", start, middle, end, size);
 
     fft.dispose();
   }
 
   function testFFTCCwasm(size) {
     var fft = new pulse.fftComplex(size);
+    var cin = [...Array(64)].map(() => inputInterleaved(size));
 
     var start = performance.now();
     var middle = start;
@@ -170,22 +238,62 @@ function testFFTwasm(size) {
       if (i == iterations) {
         middle = performance.now();
       }
-      var cin = inputInterleaved(size);
-      var out = fft.forward(cin);
-      for (var j = 0; j < size; ++j) {
-        total += Math.sqrt(out[j*2] * out[j*2] + out[j*2+1] * out[j*2+1]);
-      }
+      var out = fft.forward(cin[i%cin.length]);
     }
 
     var end = performance.now();
 
-    report("WASMkissfftcc", start, middle, end, total);
+    report("WASMkissfftcc", start, middle, end, size);
 
     fft.dispose();
   }
 
-var sizes = [ 4, 8, 512, 2048, 4096 ];
-var tests = [testFFTasm, testFFTCCasm, testFFTwasm, testFFTCCwasm];
+  function testFFTCCjs(size) {
+    var fft = makeFFT(size);
+    var cin = [...Array(64)].map(() => inputInterleaved(size));
+
+    var start = performance.now();
+    var middle = start;
+    var end = start;
+
+    total = 0.0;
+
+    for (var i = 0; i < 2*iterations; ++i) {
+      if (i == iterations) {
+        middle = performance.now();
+      }
+      var out = fft(cin[i%cin.length]);
+    }
+
+    var end = performance.now();
+
+    report("JSfftcc", start, middle, end, size);
+  }
+
+  function testFFTCCjs_wasm(size) {
+    var fft = makeFFTwasm(size);
+    var cin = [...Array(64)].map(() => inputInterleaved(size));
+
+    var start = performance.now();
+    var middle = start;
+    var end = start;
+
+    total = 0.0;
+
+    for (var i = 0; i < 2*iterations; ++i) {
+      if (i == iterations) {
+        middle = performance.now();
+      }
+      var out = fft(cin[i%cin.length]);
+    }
+
+    var end = performance.now();
+
+    report("JSWASMfftcc", start, middle, end, size);
+  }
+
+var sizes = [ 4, 8, 512, 2048, 4096, 8192 ];
+var tests = [testFFTasm, testFFTCCasm, testFFTwasm, testFFTCCwasm, testFFTCCjs, testFFTCCjs_wasm];
 var nextTest = 0;
 var nextSize = 0;
 var interval;
